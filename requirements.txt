@@ -1,0 +1,4 @@
+pyqt5
+qt5reactor
+qdarkstyle
+pyinstaller
