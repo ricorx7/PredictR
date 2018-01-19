@@ -1,29 +1,22 @@
-import json
-import os
-import sys
-from subsystem_view import Ui_Subsystem
 from PyQt5.QtWidgets import QWidget
-
-import rti_python.ADCP.Predictor.Power as Power
-import rti_python.ADCP.Predictor.Range as Range
-import rti_python.ADCP.Predictor.MaxVelocity as Velocity
-import rti_python.ADCP.Predictor.STD as STD
-import rti_python.ADCP.Predictor.DataStorage as DS
-import rti_python.ADCP.Subsystem as SS
-
-import rti_python.ADCP.AdcpCommands as Commands
-import AdcpJson as JSON
-import datetime
-import time
+from . import subsystem_view
+from rti_python.ADCP import AdcpCommands as Commands
+from rti_python.ADCP.Predictor import DataStorage as DS
+from rti_python.ADCP.Predictor import MaxVelocity as Velocity
+from rti_python.ADCP.Predictor import Power as Power
+from rti_python.ADCP.Predictor import Range as Range
+from rti_python.ADCP.Predictor import STD as STD
+from rti_python.ADCP import Subsystem as SS
+from . import AdcpJson as JSON
 
 
-class SubsystemVM(Ui_Subsystem, QWidget):
+class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
     """
     Subsystem settings.
     """
 
     def __init__(self, parent, predictor, ss_code):
-        Ui_Subsystem.__init__(self)
+        subsystem_view.Ui_Subsystem.__init__(self)
         QWidget.__init__(self, parent)
         self.setupUi(self)
         self.parent = parent
@@ -375,7 +368,7 @@ class SubsystemVM(Ui_Subsystem, QWidget):
         self.calc_first_bin = first_bin
         self.calc_cfg_wp_range = cfg_range
 
-        calc_max_vel = Velocity.calculate_max_velocity(SystemFrequency=self.freq,
+        calc_max_vel = Velocity.MaxVelocity.calculate_max_velocity(SystemFrequency=self.freq,
                                                        CWPBB_LagLength=self.cwpbbDoubleSpinBox.value())
 
         '''

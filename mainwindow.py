@@ -1,9 +1,10 @@
 import sys
-from PyQt5 import QtCore, QtGui, QtWidgets
-import qdarkstyle
-import images_qr
 
-from predictor_vm import PredictorVM
+from PyQt5 import QtGui, QtWidgets
+
+from PredictR_view.predictor_vm import PredictorVM
+# import qdarkstyle
+# import images_qr
 
 
 class MainWindow(QtWidgets.QMainWindow):

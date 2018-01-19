@@ -1,24 +1,22 @@
 import datetime
 import os
-import sys
-from predictor_view import Ui_RoweTechPredictor
-from subsystem_view import Ui_Subsystem
-from subsystem_vm import SubsystemVM
-import rti_python.ADCP.Subsystem as SS
-from PyQt5.QtWidgets import QWidget
 
-import rti_python.ADCP.Predictor.DataStorage as DS
-import rti_python.ADCP.AdcpCommands as Commands
-import AdcpJson as JSON
+from . import AdcpJson as JSON
+from . import subsystem_view
+from . import subsystem_vm
+from rti_python.ADCP import AdcpCommands as Commands
+from rti_python.ADCP.Predictor import DataStorage as DS
+from rti_python.ADCP import Subsystem as SS
+from . import predictor_view
 
 
-class PredictorVM(Ui_RoweTechPredictor):
+class PredictorVM(predictor_view.Ui_RoweTechPredictor):
     """
     Prediction model.
     """
 
     def __init__(self, parent):
-        Ui_RoweTechPredictor.__init__(self)
+        predictor_view.Ui_RoweTechPredictor.__init__(self)
         self.setupUi(parent)
         self.parent = parent
 
@@ -105,8 +103,8 @@ class PredictorVM(Ui_RoweTechPredictor):
 
         # Create the subsystem view
         # Add it to the Tab
-        ssUI = Ui_Subsystem()
-        ssVM = SubsystemVM(self.tabSubsystem, self, ss)
+        ssUI = subsystem_view.Ui_Subsystem()
+        ssVM = subsystem_vm.SubsystemVM(self.tabSubsystem, self, ss)
         ss_label = "[" + str(ss) + "] - " + SS.ss_label(ss)
         self.tabSubsystem.addTab(ssVM, ss_label)
 
