@@ -1,6 +1,5 @@
 import os
 import json
-import sys
 
 
 def get_json():
@@ -11,25 +10,20 @@ def get_json():
     :return:
     """
     json_file = "AdcpCommands.json"
-    json_file_adcp = "rti_python/ADCP/AdcpCommands.json"
 
     # Get the descriptions from the json file
-    # script_dir = ""
     script_dir = os.path.dirname(__file__)
-    bundle_dir = os.path.dirname(os.path.abspath(__file__))
-
-    if getattr(sys, 'frozen', False):
-        application_path = os.path.dirname(sys.executable)
-    elif __file__:
-        application_path = os.path.dirname(__file__)
+    print("path to app: " +  script_dir)
 
     # List of possible paths
     # It varies because, you can run it on windows or OSX, or using the 1 file pyinstaller or from source code
     json_file_paths = [
         os.getcwd() + os.sep + json_file,
         os.path.join(script_dir, os.path.join("ADCP", json_file)),
+        os.path.join(os.path.join("..", script_dir), os.path.join("ADCP", json_file)),
+        os.path.join(script_dir, os.path.join("../rti_python/ADCP", json_file)),
         os.getcwd() + os.sep + ".." + os.sep + ".." + os.sep + ".." + os.sep + "ADCP" + os.sep + json_file,
-        'rti_python/ADCP/AdcpCommands.json',                                                            # App Run Local
+        'rti_python/ADCP/AdcpCommands.json',                                                           # App Run Local
     ]
 
     # Try to open the file, if found, return it

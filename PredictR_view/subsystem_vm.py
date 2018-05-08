@@ -368,21 +368,8 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         self.calc_first_bin = first_bin
         self.calc_cfg_wp_range = cfg_range
 
-        calc_max_vel = Velocity.MaxVelocity.calculate_max_velocity(SystemFrequency=self.freq,
-                                                       CWPBB_LagLength=self.cwpbbDoubleSpinBox.value())
-
-        '''
         self.calc_max_vel = Velocity.calculate_max_velocity(SystemFrequency=self.freq,
-                                                            Beams=self.numBeamsSpinBox.value(),
-                                                            CWPON=self.cwponCheckBox.isChecked(),
-                                                            CWPBL=self.cwpblDoubleSpinBox.value(),
-                                                            CWPBS=self.cwpbsDoubleSpinBox.value(),
-                                                            CWPBN=self.cwpbnSpinBox.value(),
-                                                            CWPBB=self.cwpbbComboBox.itemData(self.cwpbbComboBox.currentIndex()),
-                                                            CWPBB_LagLength=self.cwpbbDoubleSpinBox.value(),
-                                                            CWPP=self.cwppSpinBox.value(),
-                                                            CWPTBP=self.cwptbpDoubleSpinBox.value(),
-                                                            CBTON=self.cbtonCheckBox.isChecked())
+                                                            CWPBB_LagLength=self.cwpbbDoubleSpinBox.value())
 
         if self.cbiEnabledCheckBox.isChecked():
             self.calc_data = DS.calculate_burst_storage_amount(CBI_BurstInterval=self.cbiBurstIntervalDoubleSpinBox.value(),
@@ -426,8 +413,8 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                                                          IsE0000013=self.cedBtEngCheckBox.isChecked(),
                                                          IsE0000014=self.cedSysSettingCheckBox.isChecked(),
                                                          IsE0000015=self.cedRangeTrackingCheckBox.isChecked(),)
-        '''
-        calc_std = STD.calculate_std(SystemFrequency=self.freq,
+
+        self.calc_std = STD.calculate_std(SystemFrequency=self.freq,
                                           Beams=self.numBeamsSpinBox.value(),
                                           CWPON=self.cwponCheckBox.isChecked(),
                                           CWPBL=self.cwpblDoubleSpinBox.value(),
@@ -439,12 +426,17 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                                           CWPTBP=self.cwptbpDoubleSpinBox.value(),
                                           CBTON=self.cbtonCheckBox.isChecked())
 
+        #if self.calc_max_vel is None:
+        #    self.calc_max_vel = 0.0
+        #if self.calc_std is None:
+        #    self.calc_std = 0.0
+
         # Update the display
-        self.powerLabel.setText(str(round(self.calc_power, 3)) + " watt/hr")
+        self.powerLabel.setText(str(round(self.calc_power, 2)) + " watt/hr")
         self.numBatteriesLabel.setText(str(round(self.calc_num_batt, 3)) + " batteries")
-        self.wpRangeLabel.setText(str(round(self.calc_wp_range, 3)) + " m")
-        self.btRangeLabel.setText(str(round(self.calc_bt_range, 3)) + " m")
-        self.firstBinPosLabel.setText(str(round(self.calc_first_bin, 3)) + " m")
+        self.wpRangeLabel.setText(str(round(self.calc_wp_range, 2)) + " m")
+        self.btRangeLabel.setText(str(round(self.calc_bt_range, 2)) + " m")
+        self.firstBinPosLabel.setText(str(round(self.calc_first_bin, 2)) + " m")
         self.maxVelLabel.setText(str(round(self.calc_max_vel, 3)) + " m/s")
         self.dataUsageLabel.setText(str(DS.bytes_2_human_readable(self.calc_data)))
         self.stdLabel.setText(str(round(self.calc_std, 3)) + " m/s")
@@ -457,25 +449,25 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         # CBI
         if self.cbiEnabledCheckBox.isChecked():
             msg, error_msg = Commands.pretty_print_burst(self.predictor.ceiDoubleSpinBox.value(),
-                                                          self.cbiBurstIntervalDoubleSpinBox.value(),
-                                                          self.cbiNumEnsSpinBox.value(),
-                                                          self.cwppSpinBox.value(),
-                                                          self.cwptbpDoubleSpinBox.value())
+                                                         self.cbiBurstIntervalDoubleSpinBox.value(),
+                                                         self.cbiNumEnsSpinBox.value(),
+                                                         self.cwppSpinBox.value(),
+                                                         self.cwptbpDoubleSpinBox.value())
             cfg_status_str += msg
             err_status_str += error_msg
         else:
             msg, error_msg = Commands.pretty_print_standard(self.predictor.ceiDoubleSpinBox.value(),
-                                           self.cwppSpinBox.value(),
-                                           self.cwptbpDoubleSpinBox.value())
+                                                            self.cwppSpinBox.value(),
+                                                            self.cwptbpDoubleSpinBox.value())
             cfg_status_str += msg
             err_status_str += error_msg
 
         if self.cwponCheckBox.isChecked():
             # Configured Water Profile depth
             msg = Commands.pretty_print_cfg_depth(self.cwpblDoubleSpinBox.value(),
-                                                                         self.cwpbsDoubleSpinBox.value(),
-                                                                         self.cwpbnSpinBox.value(),
-                                                                         self.calc_first_bin)
+                                                  self.cwpbsDoubleSpinBox.value(),
+                                                  self.cwpbnSpinBox.value(),
+                                                  self.calc_first_bin)
             cfg_status_str += msg
             err_status_str += error_msg
 
@@ -492,8 +484,8 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         if self.predictor.cerecordCheckBox.isChecked():
             cfg_status_str += "-Recording to the internal SD card.\n"
 
-        cfg_status_str += str(calc_max_vel)
-        cfg_status_str += str(calc_std)
+        cfg_status_str += str(self.calc_max_vel)
+        cfg_status_str += str(self.calc_std)
 
         # Set the text to the browser
         self.pingingTextBrowser.setText(cfg_status_str)

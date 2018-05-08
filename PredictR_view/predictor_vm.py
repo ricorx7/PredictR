@@ -83,7 +83,10 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
         # Get the JSON file
         cmds = JSON.get_json()
         if cmds is None:
+            self.commandFileTextBrowser.append('Error loading the configuration file')
             return
+        else:
+            self.commandFileTextBrowser.append('File found')
 
         self.ceiDoubleSpinBox.setToolTip(Commands.get_tooltip(cmds["CEI"]["desc"]))
         self.cwsSpinBox.setToolTip(Commands.get_tooltip(cmds["CWS"]["desc"]))
@@ -156,7 +159,7 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
             self.tabSubsystem.widget(tab).calculate()
             # print(self.tabSubsystem.widget(tab).cwpblDoubleSpinBox.value())
 
-            # Accuulate the values
+            # Accumlate the values
             self.calc_data += self.tabSubsystem.widget(tab).calc_data
             self.calc_num_batt += self.tabSubsystem.widget(tab).calc_num_batt
             self.calc_power += self.tabSubsystem.widget(tab).calc_power
