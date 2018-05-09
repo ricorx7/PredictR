@@ -95,6 +95,10 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         if self.ss_code == 'A' or self.ss_code == 'B' or self.ss_code == 'C' or self.ss_code == 'D' or self.ss_code == 'E':
             self.numBeamsSpinBox.setValue(1)
 
+        # Check the beam diameter
+        if self.ss_code == '2' or self.ss_code == '6' or self.ss_code == 'A':
+            self.beamDiaComboBox.setCurrentIndex(1)
+
         # Watch for changes to recalculate
         self.cedBeamVelCheckBox.stateChanged.connect(self.stateChanged)
         self.cedInstrVelCheckBox.stateChanged.connect(self.stateChanged)
@@ -150,6 +154,10 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         self.rangeTrackingComboBox.addItem("Disable", 0)
         self.rangeTrackingComboBox.addItem("Bin", 1)
         self.rangeTrackingComboBox.addItem("Pressure", 2)
+
+        self.beamDiaComboBox.addItem("3 inch", 3)
+        self.beamDiaComboBox.addItem("2 inch", 2)
+
         self.cwprtRangeFractionSpinBox.setEnabled(0)
         self.cwprtMinBinSpinBox.setEnabled(0)
         self.cwprtMaxBinSpinBox.setEnabled(0)
@@ -193,6 +201,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         self.cbiInterleaveCheckBox.setToolTip(Commands.get_tooltip(cmds["CBI"]["desc"]))
         self.cbiNumEnsSpinBox.setToolTip(Commands.get_tooltip(cmds["CBI"]["desc"]))
         self.cedGroupBox.setToolTip(Commands.get_tooltip(cmds["CED"]["desc"]))
+        self.beamDiaComboBox.setToolTip("Set the Beam diameter.\n2 inches are the smaller beams and 3 inches are the larger beams.")
         self.predictionGroupBox.setToolTip("Prediction results for the subsystem configuration.")
         self.statusGroupBox.setToolTip("Status of the configuration based off the settings.")
         self.errorGroupBox.setToolTip("Any errors based off the configuration.")
@@ -314,6 +323,12 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         deployment = self.predictor.deploymentDurationSpinBox.value()
         cei = self.predictor.ceiDoubleSpinBox.value()
 
+        # Beam Diameter
+        beamDia = 0.075                                 # 3 Inch
+        if self.beamDiaComboBox.currentIndex() == 1:
+            beamDia = 0.05                              # 2 Inch
+
+
         # Calculate
         self.calc_power = Power.calculate_power(DeploymentDuration=deployment,
                                                 Beams=self.numBeamsSpinBox.value(),
@@ -328,7 +343,8 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                                                 CWPP=self.cwppSpinBox.value(),
                                                 CWPTBP=self.cwptbpDoubleSpinBox.value(),
                                                 CBTON=self.cbtonCheckBox.isChecked(),
-                                                CBTBB=self.cbtbbComboBox.itemData(self.cbtbbComboBox.currentIndex()),)
+                                                CBTBB=self.cbtbbComboBox.itemData(self.cbtbbComboBox.currentIndex()),
+                                                BeamDiameter=beamDia)
 
         if self.cbiEnabledCheckBox.isChecked():
             self.calc_power = Power.calculate_burst_power(DeploymentDuration=deployment,
@@ -347,7 +363,8 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                                                           CBTBB=self.cbtbbComboBox.itemData(self.cbtbbComboBox.currentIndex()),
                                                           CBI=self.cbiEnabledCheckBox.isChecked(),
                                                           CBI_BurstInterval=self.cbiBurstIntervalDoubleSpinBox.value(),
-                                                          CBI_NumEns=self.cbiNumEnsSpinBox.value(),)
+                                                          CBI_NumEns=self.cbiNumEnsSpinBox.value(),
+                                                          BeamDiameter=beamDia)
 
         self.calc_num_batt = Power.calculate_number_batteries(DeploymentDuration=deployment, PowerUsage=self.calc_power)
 
@@ -361,7 +378,8 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                                                                                      CWPBB_LagLength=self.cwpbbDoubleSpinBox.value(),
                                                                                      CWPP=self.cwppSpinBox.value(),
                                                                                      CWPTBP=self.cwptbpDoubleSpinBox.value(),
-                                                                                     CBTON=self.cbtonCheckBox.isChecked())
+                                                                                     CBTON=self.cbtonCheckBox.isChecked(),
+                                                                                     BeamDiameter=beamDia)
 
         self.calc_bt_range = bt_range
         self.calc_wp_range = wp_range
@@ -660,6 +678,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                 self.cbtbbComboBox.setCurrentIndex(0)
                 self.cbttbpDoubleSpinBox.setValue(json_cmds["Setups"]["Default"]["1200"]["CBTTBP"])
                 self.cbiEnabledCheckBox.setChecked(False)
+                self.beamDiaComboBox.setCurrentIndex(1)     # 2 inch
             elif self.ss_code == "3":                                                         # 600 khz
                 print("600kHz")
                 self.cwponCheckBox.setChecked(True)
@@ -674,6 +693,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                 self.cbtbbComboBox.setCurrentIndex(0)
                 self.cbttbpDoubleSpinBox.setValue(json_cmds["Setups"]["Default"]["600"]["CBTTBP"])
                 self.cbiEnabledCheckBox.setChecked(False)
+                self.beamDiaComboBox.setCurrentIndex(0)  # 3 inch
             elif self.ss_code == "4":                                                         # 300 khz
                 print("300kHz")
                 self.cwponCheckBox.setChecked(True)
@@ -688,6 +708,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                 self.cbtbbComboBox.setCurrentIndex(0)
                 self.cbttbpDoubleSpinBox.setValue(json_cmds["Setups"]["Default"]["300"]["CBTTBP"])
                 self.cbiEnabledCheckBox.setChecked(False)
+                self.beamDiaComboBox.setCurrentIndex(0)  # 3 inch
 
         elif self.recommendCfgComboBox.currentText() == "General Purpose [WM1]":                                     # WM1
             print("WM1")
@@ -705,6 +726,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                 self.cbtbbComboBox.setCurrentIndex(0)
                 self.cbttbpDoubleSpinBox.setValue(json_cmds["Setups"]["WM1"]["1200"]["CBTTBP"])
                 self.cbiEnabledCheckBox.setChecked(False)
+                self.beamDiaComboBox.setCurrentIndex(1)  # 2 inch
             elif self.ss_code == "3":  # 600 khz
                 print("600kHz")
                 self.cwponCheckBox.setChecked(True)
@@ -719,6 +741,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                 self.cbtbbComboBox.setCurrentIndex(0)
                 self.cbttbpDoubleSpinBox.setValue(json_cmds["Setups"]["WM1"]["600"]["CBTTBP"])
                 self.cbiEnabledCheckBox.setChecked(False)
+                self.beamDiaComboBox.setCurrentIndex(0)  # 3 inch
             elif self.ss_code == "4":  # 300 khz
                 print("300kHz")
                 self.cwponCheckBox.setChecked(True)
@@ -733,6 +756,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                 self.cbtbbComboBox.setCurrentIndex(0)
                 self.cbttbpDoubleSpinBox.setValue(json_cmds["Setups"]["WM1"]["300"]["CBTTBP"])
                 self.cbiEnabledCheckBox.setChecked(False)
+                self.beamDiaComboBox.setCurrentIndex(0)  # 3 inch
 
         elif self.recommendCfgComboBox.currentText() == "Shallow Slow-Moving [WM5]":  # WM5 and Shallow Slow-Moving
             print("WM5")
@@ -750,6 +774,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                 self.cbtbbComboBox.setCurrentIndex(0)
                 self.cbttbpDoubleSpinBox.setValue(json_cmds["Setups"]["WM5"]["1200"]["CBTTBP"])
                 self.cbiEnabledCheckBox.setChecked(False)
+                self.beamDiaComboBox.setCurrentIndex(1)  # 2 inch
             elif self.ss_code == "3":  # 600 khz
                 print("600kHz")
                 self.cwponCheckBox.setChecked(True)
@@ -764,6 +789,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                 self.cbtbbComboBox.setCurrentIndex(0)
                 self.cbttbpDoubleSpinBox.setValue(json_cmds["Setups"]["WM5"]["600"]["CBTTBP"])
                 self.cbiEnabledCheckBox.setChecked(False)
+                self.beamDiaComboBox.setCurrentIndex(0)  # 3 inch
             elif self.ss_code == "4":  # 300 khz
                 print("300kHz")
                 self.cwponCheckBox.setChecked(True)
@@ -778,6 +804,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                 self.cbtbbComboBox.setCurrentIndex(0)
                 self.cbttbpDoubleSpinBox.setValue(json_cmds["Setups"]["WM5"]["300"]["CBTTBP"])
                 self.cbiEnabledCheckBox.setChecked(False)
+                self.beamDiaComboBox.setCurrentIndex(0)  # 3 inch
 
         elif self.recommendCfgComboBox.currentText() == "Shallow [WM8]":  # WM8 and Shallow
             print("WM8")
@@ -795,6 +822,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                 self.cbtbbComboBox.setCurrentIndex(0)
                 self.cbttbpDoubleSpinBox.setValue(json_cmds["Setups"]["WM8"]["1200"]["CBTTBP"])
                 self.cbiEnabledCheckBox.setChecked(False)
+                self.beamDiaComboBox.setCurrentIndex(1)  # 2 inch
             elif self.ss_code == "3":  # 600 khz
                 print("600kHz")
                 self.cwponCheckBox.setChecked(True)
@@ -809,6 +837,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                 self.cbtbbComboBox.setCurrentIndex(0)
                 self.cbttbpDoubleSpinBox.setValue(json_cmds["Setups"]["WM8"]["600"]["CBTTBP"])
                 self.cbiEnabledCheckBox.setChecked(False)
+                self.beamDiaComboBox.setCurrentIndex(0)  # 3 inch
             elif self.ss_code == "4":  # 300 khz
                 print("300kHz")
                 self.cwponCheckBox.setChecked(True)
@@ -823,6 +852,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                 self.cbtbbComboBox.setCurrentIndex(0)
                 self.cbttbpDoubleSpinBox.setValue(json_cmds["Setups"]["WM8"]["300"]["CBTTBP"])
                 self.cbiEnabledCheckBox.setChecked(False)
+                self.beamDiaComboBox.setCurrentIndex(0)  # 3 inch
 
         elif self.recommendCfgComboBox.currentText() == "Seafloor Mount":  # Bottom Mount
             print("Seafloor Mount")
@@ -847,6 +877,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                 self.cwprtMaxBinSpinBox.setValue(json_cmds["Setups"]["Seafloor"]["1200"]["CWPRT_MaxBin"])
                 self.cwprtRangeFractionSpinBox.setValue(json_cmds["Setups"]["Seafloor"]["1200"]["CWPRT_Pressure"])
                 self.predictor.cerecordCheckBox.setChecked(True)
+                self.beamDiaComboBox.setCurrentIndex(1)  # 2 inch
             elif self.ss_code == "3":  # 600 khz
                 print("600kHz")
                 self.cwponCheckBox.setChecked(json_cmds["Setups"]["Seafloor"]["600"]["CWPON"])
@@ -868,6 +899,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                 self.cwprtMaxBinSpinBox.setValue(json_cmds["Setups"]["Seafloor"]["600"]["CWPRT_MaxBin"])
                 self.cwprtRangeFractionSpinBox.setValue(json_cmds["Setups"]["Seafloor"]["600"]["CWPRT_Pressure"])
                 self.predictor.cerecordCheckBox.setChecked(True)
+                self.beamDiaComboBox.setCurrentIndex(0)  # 3 inch
             elif self.ss_code == "4":  # 300 khz
                 print("300kHz")
                 self.cwponCheckBox.setChecked(json_cmds["Setups"]["Seafloor"]["300"]["CWPON"])
@@ -889,6 +921,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                 self.cwprtMaxBinSpinBox.setValue(json_cmds["Setups"]["Seafloor"]["300"]["CWPRT_MaxBin"])
                 self.cwprtRangeFractionSpinBox.setValue(json_cmds["Setups"]["Seafloor"]["300"]["CWPRT_Pressure"])
                 self.predictor.cerecordCheckBox.setChecked(True)
+                self.beamDiaComboBox.setCurrentIndex(0)  # 3 inch
 
         elif self.recommendCfgComboBox.currentText() == "Waves":  # Waves
             print("Waves")
@@ -913,6 +946,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                 self.cwprtMaxBinSpinBox.setValue(json_cmds["Setups"]["Waves"]["1200"]["CWPRT_MaxBin"])
                 self.cwprtRangeFractionSpinBox.setValue(json_cmds["Setups"]["Waves"]["1200"]["CWPRT_Pressure"])
                 self.predictor.cerecordCheckBox.setChecked(True)
+                self.beamDiaComboBox.setCurrentIndex(1)  # 2 inch
             elif self.ss_code == "3":  # 600 khz
                 print("600kHz")
                 self.cwponCheckBox.setChecked(json_cmds["Setups"]["Waves"]["600"]["CWPON"])
@@ -934,6 +968,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                 self.cwprtMaxBinSpinBox.setValue(json_cmds["Setups"]["Waves"]["600"]["CWPRT_MaxBin"])
                 self.cwprtRangeFractionSpinBox.setValue(json_cmds["Setups"]["Waves"]["600"]["CWPRT_Pressure"])
                 self.predictor.cerecordCheckBox.setChecked(True)
+                self.beamDiaComboBox.setCurrentIndex(0)  # 3 inch
             elif self.ss_code == "4":  # 300 khz
                 print("300kHz")
                 self.cwponCheckBox.setChecked(json_cmds["Setups"]["Waves"]["300"]["CWPON"])
@@ -955,6 +990,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                 self.cwprtMaxBinSpinBox.setValue(json_cmds["Setups"]["Waves"]["300"]["CWPRT_MaxBin"])
                 self.cwprtRangeFractionSpinBox.setValue(json_cmds["Setups"]["Waves"]["300"]["CWPRT_Pressure"])
                 self.predictor.cerecordCheckBox.setChecked(True)
+                self.beamDiaComboBox.setCurrentIndex(0)  # 3 inch
 
         elif self.recommendCfgComboBox.currentText() == "Moving Boat":  # Moving Boat
             print("Moving Boat")
@@ -979,6 +1015,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                 self.cwprtMaxBinSpinBox.setValue(json_cmds["Setups"]["MovingBoat"]["1200"]["CWPRT_MaxBin"])
                 self.cwprtRangeFractionSpinBox.setValue(json_cmds["Setups"]["MovingBoat"]["1200"]["CWPRT_Pressure"])
                 self.predictor.cerecordCheckBox.setChecked(False)
+                self.beamDiaComboBox.setCurrentIndex(1)  # 2 inch
             elif self.ss_code == "3":  # 600 khz
                 print("600kHz")
                 self.cwponCheckBox.setChecked(json_cmds["Setups"]["MovingBoat"]["600"]["CWPON"])
@@ -1000,6 +1037,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                 self.cwprtMaxBinSpinBox.setValue(json_cmds["Setups"]["MovingBoat"]["600"]["CWPRT_MaxBin"])
                 self.cwprtRangeFractionSpinBox.setValue(json_cmds["Setups"]["MovingBoat"]["600"]["CWPRT_Pressure"])
                 self.predictor.cerecordCheckBox.setChecked(False)
+                self.beamDiaComboBox.setCurrentIndex(0)  # 3 inch
             elif self.ss_code == "4":  # 300 khz
                 print("300kHz")
                 self.cwponCheckBox.setChecked(json_cmds["Setups"]["MovingBoat"]["300"]["CWPON"])
@@ -1021,6 +1059,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                 self.cwprtMaxBinSpinBox.setValue(json_cmds["Setups"]["MovingBoat"]["300"]["CWPRT_MaxBin"])
                 self.cwprtRangeFractionSpinBox.setValue(json_cmds["Setups"]["MovingBoat"]["300"]["CWPRT_Pressure"])
                 self.predictor.cerecordCheckBox.setChecked(False)
+                self.beamDiaComboBox.setCurrentIndex(0)  # 3 inch
 
         elif self.recommendCfgComboBox.currentText() == "DVL":  # DVL
             print("DVL")
@@ -1045,6 +1084,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                 self.cwprtMaxBinSpinBox.setValue(json_cmds["Setups"]["DVL"]["1200"]["CWPRT_MaxBin"])
                 self.cwprtRangeFractionSpinBox.setValue(json_cmds["Setups"]["DVL"]["1200"]["CWPRT_Pressure"])
                 self.predictor.cerecordCheckBox.setChecked(False)
+                self.beamDiaComboBox.setCurrentIndex(1)  # 2 inch
             elif self.ss_code == "3":  # 600 khz
                 print("600kHz")
                 self.cwponCheckBox.setChecked(json_cmds["Setups"]["DVL"]["600"]["CWPON"])
@@ -1066,6 +1106,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                 self.cwprtMaxBinSpinBox.setValue(json_cmds["Setups"]["DVL"]["600"]["CWPRT_MaxBin"])
                 self.cwprtRangeFractionSpinBox.setValue(json_cmds["Setups"]["DVL"]["600"]["CWPRT_Pressure"])
                 self.predictor.cerecordCheckBox.setChecked(False)
+                self.beamDiaComboBox.setCurrentIndex(0)  # 3 inch
             elif self.ss_code == "4":  # 300 khz
                 print("300kHz")
                 self.cwponCheckBox.setChecked(json_cmds["Setups"]["DVL"]["300"]["CWPON"])
@@ -1087,4 +1128,5 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                 self.cwprtMaxBinSpinBox.setValue(json_cmds["Setups"]["DVL"]["300"]["CWPRT_MaxBin"])
                 self.cwprtRangeFractionSpinBox.setValue(json_cmds["Setups"]["DVL"]["300"]["CWPRT_Pressure"])
                 self.predictor.cerecordCheckBox.setChecked(False)
+                self.beamDiaComboBox.setCurrentIndex(0)  # 3 inch
 

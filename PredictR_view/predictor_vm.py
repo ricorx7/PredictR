@@ -90,6 +90,8 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
 
         self.ceiDoubleSpinBox.setToolTip(Commands.get_tooltip(cmds["CEI"]["desc"]))
         self.cwsSpinBox.setToolTip(Commands.get_tooltip(cmds["CWS"]["desc"]))
+        self.cwtSpinBox.setToolTip(Commands.get_tooltip(cmds["CWT"]["desc"]))
+        self.ctdSpinBox.setToolTip(Commands.get_tooltip(cmds["CTD"]["desc"]))
         self.cerecordCheckBox.setToolTip(Commands.get_tooltip(cmds["CERECORD"]["desc"]))
         self.deploymentDurationSpinBox.setToolTip("Number of days the ADCP will be deployed.")
         self.predictionGroupBox.setToolTip("Prediction results from all the subsystem configurations combined.")

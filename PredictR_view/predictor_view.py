@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'predictor_view.ui'
 #
-# Created by: PyQt5 UI code generator 5.9.2
+# Created by: PyQt5 UI code generator 5.9
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -11,7 +11,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_RoweTechPredictor(object):
     def setupUi(self, RoweTechPredictor):
         RoweTechPredictor.setObjectName("RoweTechPredictor")
-        RoweTechPredictor.resize(1045, 874)
+        RoweTechPredictor.resize(1172, 928)
         self.centralWidget = QtWidgets.QWidget(RoweTechPredictor)
         self.centralWidget.setObjectName("centralWidget")
         self.groupBox = QtWidgets.QGroupBox(self.centralWidget)
@@ -80,7 +80,7 @@ class Ui_RoweTechPredictor(object):
         self.addSubsystemButton.setObjectName("addSubsystemButton")
         self.tabSubsystem = QtWidgets.QTabWidget(self.centralWidget)
         self.tabSubsystem.setEnabled(True)
-        self.tabSubsystem.setGeometry(QtCore.QRect(320, 30, 671, 811))
+        self.tabSubsystem.setGeometry(QtCore.QRect(320, 30, 801, 841))
         self.tabSubsystem.setObjectName("tabSubsystem")
         self.tab_3 = QtWidgets.QWidget()
         self.tab_3.setObjectName("tab_3")
@@ -136,7 +136,7 @@ class Ui_RoweTechPredictor(object):
         self.saveCommandsButton.setGeometry(QtCore.QRect(0, 300, 113, 32))
         self.saveCommandsButton.setObjectName("saveCommandsButton")
         self.revLabel = QtWidgets.QLabel(self.centralWidget)
-        self.revLabel.setGeometry(QtCore.QRect(20, 830, 291, 16))
+        self.revLabel.setGeometry(QtCore.QRect(20, 850, 291, 16))
         self.revLabel.setObjectName("revLabel")
         RoweTechPredictor.setCentralWidget(self.centralWidget)
 
