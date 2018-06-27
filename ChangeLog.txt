@@ -1,0 +1,15 @@
+ChangeLog PredictR
+
+PredictR-1.3
+ - Updated the Prediction Model to Rev Y
+
+PredictR-1.2
+ - Updated the Prediction Model to Rev X
+ - Added Beam Angle
+ - Added Number of beams
+
+PredictR-1.1
+ - Updated the Prediction Model to Rev W
+
+PredictR-1.0
+ - Initial release

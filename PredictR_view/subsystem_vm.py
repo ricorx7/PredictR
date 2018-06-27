@@ -131,6 +131,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         self.cwprtRangeFractionSpinBox.valueChanged.connect(self.valueChanged)
         self.cwprtMinBinSpinBox.valueChanged.connect(self.valueChanged)
         self.cwprtMaxBinSpinBox.valueChanged.connect(self.valueChanged)
+        self.beamDiaComboBox.currentIndexChanged.connect(self.stateChanged)
 
         # Show initial results
         self.calculate()

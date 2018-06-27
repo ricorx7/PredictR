@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['mainwindow.py'],
-             pathex=['C:\\Users\\rico\\AppData\\Roaming\\Python\\Python35\\site-packages\\PyQt5\\Qt\\bin', 'G:\\rti\\python\\PredictR', 'G:\\rti\\python\\PredictR\\rti_python'],
+             pathex=['C:\\Users\\rico\\AppData\\Roaming\\Python\\Python35\\site-packages\\PyQt5\\Qt\\bin', 'G:\\RTI\\python\\PredictR', 'G:\\RTI\\python\\PredictR\\rti_python'],
              binaries=[],
              datas=[('rti_python\\ADCP\\Predictor\\predictor.json', 'rti_python\\ADCP\\Predictor\\.'), ('rti.ico', '.'), ('rti_python\\ADCP\\AdcpCommands.json', 'rti_python\\ADCP\\.')],
              hiddenimports=[],
@@ -14,8 +14,10 @@ a = Analysis(['mainwindow.py'],
              win_no_prefer_redirects=False,
              win_private_assemblies=False,
              cipher=block_cipher)
+
 pyz = PYZ(a.pure, a.zipped_data,
              cipher=block_cipher)
+
 exe = EXE(pyz,
           a.scripts,
           a.binaries,
