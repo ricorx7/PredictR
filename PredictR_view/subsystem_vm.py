@@ -388,7 +388,9 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         self.calc_cfg_wp_range = cfg_range
 
         self.calc_max_vel = Velocity.calculate_max_velocity(SystemFrequency=self.freq,
-                                                            CWPBB_LagLength=self.cwpbbDoubleSpinBox.value())
+                                                            CWPBB_LagLength=self.cwpbbDoubleSpinBox.value(),
+                                                            CWPBS=self.cwpbsDoubleSpinBox.value(),
+                                                            CWPBB=self.cwpbbComboBox.itemData(self.cwpbbComboBox.currentIndex()))
 
         if self.cbiEnabledCheckBox.isChecked():
             self.calc_data = DS.calculate_burst_storage_amount(CBI_BurstInterval=self.cbiBurstIntervalDoubleSpinBox.value(),
