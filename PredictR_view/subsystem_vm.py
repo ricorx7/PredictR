@@ -324,6 +324,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         deployment = self.predictor.deploymentDurationSpinBox.value()
         cei = self.predictor.ceiDoubleSpinBox.value()
 
+
         # Beam Diameter
         beamDia = 0.075                                 # 3 Inch
         if self.beamDiaComboBox.currentIndex() == 1:
@@ -345,7 +346,10 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                                                 CWPTBP=self.cwptbpDoubleSpinBox.value(),
                                                 CBTON=self.cbtonCheckBox.isChecked(),
                                                 CBTBB=self.cbtbbComboBox.itemData(self.cbtbbComboBox.currentIndex()),
-                                                BeamDiameter=beamDia)
+                                                BeamDiameter=beamDia,
+                                                Salinity=self.predictor.cwsSpinBox.value(),
+                                                Temperature=self.predictor.cwtSpinBox.value(),
+                                                SpeedOfSound=self.predictor.speedOfSoundSpinBox.value())
 
         if self.cbiEnabledCheckBox.isChecked():
             self.calc_power = Power.calculate_burst_power(DeploymentDuration=deployment,
@@ -362,6 +366,9 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                                                           CWPTBP=self.cwptbpDoubleSpinBox.value(),
                                                           CBTON=self.cbtonCheckBox.isChecked(),
                                                           CBTBB=self.cbtbbComboBox.itemData(self.cbtbbComboBox.currentIndex()),
+                                                          Salinity=self.predictor.cwsSpinBox.value(),
+                                                          Temperature=self.predictor.cwtSpinBox.value(),
+                                                          SpeedOfSound=self.predictor.speedOfSoundSpinBox.value(),
                                                           CBI=self.cbiEnabledCheckBox.isChecked(),
                                                           CBI_BurstInterval=self.cbiBurstIntervalDoubleSpinBox.value(),
                                                           CBI_NumEns=self.cbiNumEnsSpinBox.value(),
@@ -380,7 +387,10 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                                                                                      CWPP=self.cwppSpinBox.value(),
                                                                                      CWPTBP=self.cwptbpDoubleSpinBox.value(),
                                                                                      CBTON=self.cbtonCheckBox.isChecked(),
-                                                                                     BeamDiameter=beamDia)
+                                                                                     BeamDiameter=beamDia,
+                                                                                     Salinity=self.predictor.cwsSpinBox.value(),
+                                                                                     Temperature=self.predictor.cwtSpinBox.value(),
+                                                                                     SpeedOfSound=self.predictor.speedOfSoundSpinBox.value())
 
         self.calc_bt_range = bt_range
         self.calc_wp_range = wp_range

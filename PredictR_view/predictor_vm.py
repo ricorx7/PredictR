@@ -92,6 +92,7 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
         self.cwsSpinBox.setToolTip(Commands.get_tooltip(cmds["CWS"]["desc"]))
         self.cwtSpinBox.setToolTip(Commands.get_tooltip(cmds["CWT"]["desc"]))
         self.ctdSpinBox.setToolTip(Commands.get_tooltip(cmds["CTD"]["desc"]))
+        self.speedOfSoundSpinBox.setToolTip(Commands.get_tooltip(cmds["CWSS"]["desc"]))
         self.cerecordCheckBox.setToolTip(Commands.get_tooltip(cmds["CERECORD"]["desc"]))
         self.deploymentDurationSpinBox.setToolTip("Number of days the ADCP will be deployed.")
         self.predictionGroupBox.setToolTip("Prediction results from all the subsystem configurations combined.")
@@ -191,6 +192,7 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
 
         self.commandFileTextBrowser.append("CEI " + Commands.sec_to_hmss(self.ceiDoubleSpinBox.value()))
         self.commandFileTextBrowser.append("CWS " + str(self.cwsSpinBox.value()))
+        self.commandFileTextBrowser.append("CWSS " + str(self.speedOfSoundSpinBox.value()))
 
         if self.cerecordCheckBox.isChecked():
             self.commandFileTextBrowser.append("CERECORD " + "1")
