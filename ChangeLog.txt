@@ -2,6 +2,7 @@ ChangeLog PredictR
 
 PredictR-1.4
  * Fixed bug with Max Velocity and Narrowband
+ * Added Speed of Sound to the predictor.
 
 PredictR-1.3
  - Updated the Prediction Model to Rev Y
