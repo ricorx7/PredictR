@@ -1,5 +1,8 @@
 ChangeLog PredictR
 
+PredictR-1.5
+ - Added Scrollbar to view.
+
 PredictR-1.4
  * Fixed bug with Max Velocity and Narrowband
  * Added Speed of Sound to the predictor.
