@@ -1,5 +1,8 @@
 ChangeLog PredictR
 
+PredictR-1.6
+ * Changed the CepoIndex in the command to a Hex value.
+
 PredictR-1.5
  - Added Scrollbar to view.
 
