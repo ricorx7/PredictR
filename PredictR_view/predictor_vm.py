@@ -25,7 +25,7 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
         self.calc_data = 0.0
         self.calc_num_batt = 0.0
 
-        self.revLabel.setText("© RoweTech Inc. Rev 1.5")
+        self.revLabel.setText("© RoweTech Inc. Rev 1.7")
 
         # Connect the buttons
         self.addSubsystemButton.clicked.connect(self.add_subsystem)
@@ -169,7 +169,7 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
 
 
         # Update the display
-        self.powerLabel.setText(str(round(self.calc_power, 2)) + " watt/hr")
+        self.powerLabel.setText(str(round(self.calc_power, 2)) + " watt*hr")
         self.powerLabel.setStyleSheet("font-weight: bold; color: blue")
         self.numBatteriesLabel.setText(str(round(self.calc_num_batt, 2)) + " batteries")
         self.numBatteriesLabel.setStyleSheet("font-weight: bold; color: blue")

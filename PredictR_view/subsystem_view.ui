@@ -19,7 +19,7 @@
      <x>330</x>
      <y>80</y>
      <width>431</width>
-     <height>131</height>
+     <height>111</height>
     </rect>
    </property>
    <property name="title">
@@ -29,9 +29,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>30</y>
+      <y>20</y>
       <width>271</width>
-      <height>91</height>
+      <height>81</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout_2">
@@ -76,9 +76,9 @@
    <property name="geometry">
     <rect>
      <x>330</x>
-     <y>210</y>
+     <y>190</y>
      <width>431</width>
-     <height>151</height>
+     <height>131</height>
     </rect>
    </property>
    <property name="title">
@@ -88,9 +88,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>30</y>
+      <y>20</y>
       <width>281</width>
-      <height>112</height>
+      <height>101</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout_3">
@@ -171,7 +171,7 @@
      <x>10</x>
      <y>10</y>
      <width>311</width>
-     <height>251</height>
+     <height>271</height>
     </rect>
    </property>
    <property name="title">
@@ -183,7 +183,7 @@
       <x>20</x>
       <y>20</y>
       <width>261</width>
-      <height>252</height>
+      <height>231</height>
      </rect>
     </property>
     <layout class="QFormLayout" name="formLayout">
@@ -332,7 +332,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>420</y>
+     <y>440</y>
      <width>751</width>
      <height>111</height>
     </rect>
@@ -540,7 +540,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>540</y>
+     <y>560</y>
      <width>751</width>
      <height>121</height>
     </rect>
@@ -739,14 +739,83 @@
      </layout>
     </widget>
    </widget>
+   <widget class="QGroupBox" name="velAccGroupBox">
+    <property name="geometry">
+     <rect>
+      <x>480</x>
+      <y>20</y>
+      <width>251</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="title">
+     <string>Velocity and Accuracy</string>
+    </property>
+    <widget class="QWidget" name="layoutWidget">
+     <property name="geometry">
+      <rect>
+       <x>10</x>
+       <y>30</y>
+       <width>221</width>
+       <height>51</height>
+      </rect>
+     </property>
+     <layout class="QGridLayout" name="gridLayout">
+      <item row="0" column="0">
+       <widget class="QLabel" name="label_19">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Maximum Velocity: </string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="0" column="1">
+       <widget class="QLabel" name="maxVelLabel">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="0">
+       <widget class="QLabel" name="label_21">
+        <property name="font">
+         <font>
+          <pointsize>8</pointsize>
+         </font>
+        </property>
+        <property name="text">
+         <string>Standard Deviation: </string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item row="1" column="1">
+       <widget class="QLabel" name="stdLabel">
+        <property name="text">
+         <string/>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </widget>
   </widget>
   <widget class="QGroupBox" name="numBeamsGroupBox">
    <property name="geometry">
     <rect>
      <x>330</x>
-     <y>360</y>
+     <y>330</y>
      <width>431</width>
-     <height>61</height>
+     <height>111</height>
     </rect>
    </property>
    <property name="title">
@@ -756,7 +825,7 @@
     <property name="geometry">
      <rect>
       <x>132</x>
-      <y>30</y>
+      <y>20</y>
       <width>111</width>
       <height>24</height>
      </rect>
@@ -775,7 +844,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>30</y>
+      <y>20</y>
       <width>111</width>
       <height>20</height>
      </rect>
@@ -787,9 +856,9 @@
    <widget class="QLabel" name="label_28">
     <property name="geometry">
      <rect>
-      <x>250</x>
-      <y>30</y>
-      <width>91</width>
+      <x>10</x>
+      <y>50</y>
+      <width>101</width>
       <height>21</height>
      </rect>
     </property>
@@ -800,8 +869,31 @@
    <widget class="QComboBox" name="beamDiaComboBox">
     <property name="geometry">
      <rect>
-      <x>350</x>
-      <y>30</y>
+      <x>130</x>
+      <y>50</y>
+      <width>73</width>
+      <height>22</height>
+     </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_30">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>80</y>
+      <width>111</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Beam Angle</string>
+    </property>
+   </widget>
+   <widget class="QComboBox" name="beamAngleComboBox">
+    <property name="geometry">
+     <rect>
+      <x>130</x>
+      <y>80</y>
       <width>73</width>
       <height>22</height>
      </rect>
@@ -848,7 +940,7 @@
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>260</y>
+     <y>280</y>
      <width>311</width>
      <height>161</height>
     </rect>
@@ -913,80 +1005,11 @@
     </layout>
    </widget>
   </widget>
-  <widget class="QGroupBox" name="velAccGroupBox">
-   <property name="geometry">
-    <rect>
-     <x>490</x>
-     <y>560</y>
-     <width>251</width>
-     <height>91</height>
-    </rect>
-   </property>
-   <property name="title">
-    <string>Velocity and Accuracy</string>
-   </property>
-   <widget class="QWidget" name="layoutWidget">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>30</y>
-      <width>221</width>
-      <height>51</height>
-     </rect>
-    </property>
-    <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="0">
-      <widget class="QLabel" name="label_19">
-       <property name="font">
-        <font>
-         <pointsize>8</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Maximum Velocity: </string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="1">
-      <widget class="QLabel" name="maxVelLabel">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="0">
-      <widget class="QLabel" name="label_21">
-       <property name="font">
-        <font>
-         <pointsize>8</pointsize>
-        </font>
-       </property>
-       <property name="text">
-        <string>Standard Deviation: </string>
-       </property>
-       <property name="alignment">
-        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-       </property>
-      </widget>
-     </item>
-     <item row="1" column="1">
-      <widget class="QLabel" name="stdLabel">
-       <property name="text">
-        <string/>
-       </property>
-      </widget>
-     </item>
-    </layout>
-   </widget>
-  </widget>
   <widget class="QGroupBox" name="statusGroupBox">
    <property name="geometry">
     <rect>
      <x>10</x>
-     <y>670</y>
+     <y>690</y>
      <width>411</width>
      <height>121</height>
     </rect>
@@ -1009,7 +1032,7 @@
    <property name="geometry">
     <rect>
      <x>430</x>
-     <y>670</y>
+     <y>690</y>
      <width>331</width>
      <height>121</height>
     </rect>

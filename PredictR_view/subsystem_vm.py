@@ -94,6 +94,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         # Check SS code to know how many beams
         if self.ss_code == 'A' or self.ss_code == 'B' or self.ss_code == 'C' or self.ss_code == 'D' or self.ss_code == 'E':
             self.numBeamsSpinBox.setValue(1)
+            self.beamAngleComboBox.setCurrentIndex(1)       # 0 Degrees
 
         # Check the beam diameter
         if self.ss_code == '2' or self.ss_code == '6' or self.ss_code == 'A':
@@ -132,6 +133,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         self.cwprtMinBinSpinBox.valueChanged.connect(self.valueChanged)
         self.cwprtMaxBinSpinBox.valueChanged.connect(self.valueChanged)
         self.beamDiaComboBox.currentIndexChanged.connect(self.stateChanged)
+        self.beamAngleComboBox.currentIndexChanged.connect(self.stateChanged)
 
         # Show initial results
         self.calculate()
@@ -142,6 +144,10 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
 
         self.cbtbbComboBox.addItem("Broadband", 1)
         self.cbtbbComboBox.addItem("Narrowband", 0)
+
+        self.beamAngleComboBox.addItem("20", 20)
+        self.beamAngleComboBox.addItem("0", 0)
+        self.beamAngleComboBox.addItem("30", 30)
 
         self.recommendCfgComboBox.addItem("Default", "Default")
         self.recommendCfgComboBox.addItem("Seafloor Mount", "Seafloor Mount")
@@ -203,6 +209,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         self.cbiNumEnsSpinBox.setToolTip(Commands.get_tooltip(cmds["CBI"]["desc"]))
         self.cedGroupBox.setToolTip(Commands.get_tooltip(cmds["CED"]["desc"]))
         self.beamDiaComboBox.setToolTip("Set the Beam diameter.\n2 inches are the smaller beams and 3 inches are the larger beams.")
+        self.beamAngleComboBox.setToolTip("Set the Beam angle.  Standard beam angle is 20 degrees.  A vertical beam is 0 degrees.")
         self.predictionGroupBox.setToolTip("Prediction results for the subsystem configuration.")
         self.statusGroupBox.setToolTip("Status of the configuration based off the settings.")
         self.errorGroupBox.setToolTip("Any errors based off the configuration.")
@@ -321,7 +328,13 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         :return:
         """
         # Get the global settings
-        deployment = self.predictor.deploymentDurationSpinBox.value()
+        # Get the number of configurations
+        num_config = self.predictor.tabSubsystem.count()
+        if num_config > 0:
+            deployment = self.predictor.deploymentDurationSpinBox.value() / num_config
+        else:
+            deployment = self.predictor.deploymentDurationSpinBox.value()
+
         cei = self.predictor.ceiDoubleSpinBox.value()
 
 
@@ -334,6 +347,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         # Calculate
         self.calc_power = Power.calculate_power(DeploymentDuration=deployment,
                                                 Beams=self.numBeamsSpinBox.value(),
+                                                BeamAngle=self.beamAngleComboBox.itemData(self.beamAngleComboBox.currentIndex()),
                                                 CEI=cei,
                                                 SystemFrequency=self.freq,
                                                 CWPON=self.cwponCheckBox.isChecked(),
@@ -354,6 +368,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         if self.cbiEnabledCheckBox.isChecked():
             self.calc_power = Power.calculate_burst_power(DeploymentDuration=deployment,
                                                           Beams=self.numBeamsSpinBox.value(),
+                                                          BeamAngle=self.beamAngleComboBox.itemData(self.beamAngleComboBox.currentIndex()),
                                                           CEI=cei,
                                                           SystemFrequency=self.freq,
                                                           CWPON=self.cwponCheckBox.isChecked(),
@@ -378,6 +393,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
 
         (bt_range, wp_range, first_bin, cfg_range) = Range.calculate_predicted_range(SystemFrequency=self.freq,
                                                                                      Beams=self.numBeamsSpinBox.value(),
+                                                                                     BeamAngle=self.beamAngleComboBox.itemData(self.beamAngleComboBox.currentIndex()),
                                                                                      CWPON=self.cwponCheckBox.isChecked(),
                                                                                      CWPBL=self.cwpblDoubleSpinBox.value(),
                                                                                      CWPBS=self.cwpbsDoubleSpinBox.value(),
@@ -398,6 +414,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         self.calc_cfg_wp_range = cfg_range
 
         self.calc_max_vel = Velocity.calculate_max_velocity(SystemFrequency=self.freq,
+                                                            BeamAngle=self.beamAngleComboBox.itemData(self.beamAngleComboBox.currentIndex()),
                                                             CWPBB_LagLength=self.cwpbbDoubleSpinBox.value(),
                                                             CWPBS=self.cwpbsDoubleSpinBox.value(),
                                                             CWPBB=self.cwpbbComboBox.itemData(self.cwpbbComboBox.currentIndex()))
@@ -407,6 +424,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                                                                CBI_NumEns=self.cbiNumEnsSpinBox.value(),
                                                                DeploymentDuration=deployment,
                                                                Beams=self.numBeamsSpinBox.value(),
+                                                               BeamAngle=self.beamAngleComboBox.itemData(self.beamAngleComboBox.currentIndex()),
                                                                CEI=cei,
                                                                CWPBN=self.cwpbnSpinBox.value(),
                                                                IsE0000001=self.cedBeamVelCheckBox.isChecked(),
@@ -428,6 +446,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
             self.calc_data = DS.calculate_storage_amount(DeploymentDuration=deployment,
                                                          CEI=cei,
                                                          Beams=self.numBeamsSpinBox.value(),
+                                                         BeamAngle=self.beamAngleComboBox.itemData(self.beamAngleComboBox.currentIndex()),
                                                          CWPBN=self.cwpbnSpinBox.value(),
                                                          IsE0000001=self.cedBeamVelCheckBox.isChecked(),
                                                          IsE0000002=self.cedInstrVelCheckBox.isChecked(),
@@ -447,6 +466,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
 
         self.calc_std = STD.calculate_std(SystemFrequency=self.freq,
                                           Beams=self.numBeamsSpinBox.value(),
+                                          BeamAngle=self.beamAngleComboBox.itemData(self.beamAngleComboBox.currentIndex()),
                                           CWPON=self.cwponCheckBox.isChecked(),
                                           CWPBL=self.cwpblDoubleSpinBox.value(),
                                           CWPBS=self.cwpbsDoubleSpinBox.value(),
@@ -463,7 +483,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         #    self.calc_std = 0.0
 
         # Update the display
-        self.powerLabel.setText(str(round(self.calc_power, 2)) + " watt/hr")
+        self.powerLabel.setText(str(round(self.calc_power, 2)) + " watt*hr")
         self.numBatteriesLabel.setText(str(round(self.calc_num_batt, 3)) + " batteries")
         self.wpRangeLabel.setText(str(round(self.calc_wp_range, 2)) + " m")
         self.btRangeLabel.setText(str(round(self.calc_bt_range, 2)) + " m")
@@ -515,8 +535,8 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         if self.predictor.cerecordCheckBox.isChecked():
             cfg_status_str += "-Recording to the internal SD card.\n"
 
-        cfg_status_str += str(self.calc_max_vel)
-        cfg_status_str += str(self.calc_std)
+        #cfg_status_str += str(self.calc_max_vel)
+        #cfg_status_str += str(self.calc_std)
 
         # Set the text to the browser
         self.pingingTextBrowser.setText(cfg_status_str)
@@ -576,11 +596,13 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
 
         if self.cbiEnabledCheckBox.isChecked():
             cbi_num_ens = str(self.cbiNumEnsSpinBox.value())
-            cbi_interval = Commands.sec_to_hmss(self.cbiBurstIntervalDoubleSpinBox.value())
-            if self.cbiInterleaveCheckBox.isChecked():
-                command_list.append(Commands.AdcpCmd("CBI", cbi_interval + ", " + cbi_num_ens + " ,1"))     # CBI
-            else:
-                command_list.append(Commands.AdcpCmd("CBI", cbi_interval + ", " + cbi_num_ens + " ,0"))     # CBI
+        else:
+            cbi_num_ens = str(0)
+        cbi_interval = Commands.sec_to_hmss(self.cbiBurstIntervalDoubleSpinBox.value())
+        if self.cbiInterleaveCheckBox.isChecked():
+            command_list.append(Commands.AdcpCmd("CBI", cbi_interval + ", " + cbi_num_ens + " ,1"))     # CBI
+        else:
+            command_list.append(Commands.AdcpCmd("CBI", cbi_interval + ", " + cbi_num_ens + " ,0"))     # CBI
 
         # CED
         ced = ""

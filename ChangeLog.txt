@@ -1,5 +1,10 @@
 ChangeLog PredictR
 
+PredictR-1.7
+ * Added Beam Angle to fix vertical beam calculations
+ * Fixed the overall accumulated prediction model for the number of configurations.
+ * Set CBI to 0 ensembles if CBI is turned off to ensure it is turned off.
+
 PredictR-1.6
  * Changed the CepoIndex in the command to a Hex value.
 
