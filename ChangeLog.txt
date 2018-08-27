@@ -1,5 +1,9 @@
 ChangeLog PredictR
 
+PredictR-1.8
+ * Added PD0 data storage size.
+ * Added Coordinate Transform for PD0.
+
 PredictR-1.7
  * Added Beam Angle to fix vertical beam calculations
  * Fixed the overall accumulated prediction model for the number of configurations.

@@ -25,7 +25,7 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
         self.calc_data = 0.0
         self.calc_num_batt = 0.0
 
-        self.revLabel.setText("© RoweTech Inc. Rev 1.7")
+        self.revLabel.setText("© RoweTech Inc. Rev 1.8")
 
         # Connect the buttons
         self.addSubsystemButton.clicked.connect(self.add_subsystem)
@@ -38,17 +38,23 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
         #self.calculateButton.clicked.connect(self.calculate)
         self.saveCommandsButton.clicked.connect(self.save_to_file)
 
-        # Recalculate when value changes
-        self.deploymentDurationSpinBox.valueChanged.connect(self.valueChanged)
-        self.ceiDoubleSpinBox.valueChanged.connect(self.valueChanged)
-        self.cwsSpinBox.valueChanged.connect(self.valueChanged)
-        self.cerecordCheckBox.stateChanged.connect(self.valueChanged)
-
         # Create the list of subsystems
         self.init_list()
 
         # Set the tooltips from the JSON file
         self.set_tooltips()
+
+        # Recalculate when value changes
+        self.deploymentDurationSpinBox.valueChanged.connect(self.valueChanged)
+        self.ceiDoubleSpinBox.valueChanged.connect(self.valueChanged)
+        self.cwsSpinBox.valueChanged.connect(self.valueChanged)
+        self.cerecordCheckBox.stateChanged.connect(self.valueChanged)
+        self.dataFormatComboBox.currentIndexChanged.connect(self.valueChanged)
+        self.coordinateTransformComboBox.currentIndexChanged.connect(self.valueChanged)
+
+        # Initialize to RTB
+        self.dataFormatComboBox.setCurrentText("RTB")
+        self.coordinateTransformComboBox.setDisabled(True)
 
         # Set status bar
         self.parent.statusBar().showMessage('Add a subsystem to begin configuring...')
@@ -73,6 +79,14 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
         self.subsystemComboBox.addItem("C - 300kHz Vertical", "C")
         self.subsystemComboBox.addItem("D - 150kHz Vertical", "D")
         self.subsystemComboBox.addItem("E - 75kHz Vertical", "E")
+
+        self.dataFormatComboBox.addItem("RTB", "RTB")
+        self.dataFormatComboBox.addItem("PD0", "PD0")
+
+        self.coordinateTransformComboBox.addItem("Beam", "Beam")
+        self.coordinateTransformComboBox.addItem("Instrument", "Instrument")
+        self.coordinateTransformComboBox.addItem("Earth", "Earth")
+        self.coordinateTransformComboBox.addItem("Ship", "Ship")
 
     def set_tooltips(self):
         """
@@ -99,6 +113,8 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
         self.commandFileGroupBox.setToolTip("Command file generated from all the subsystem configurations.")
         self.subsystemConfigGroupBox.setToolTip("Select a subsystem to create a configuration.")
         self.saveCommandsButton.setToolTip("Save the commands to a text file.\nThe file will be saved to location of the application.\nThe file name will be the date and time.")
+        self.dataFormatComboBox.setToolTip("Select the data format.  RTB = Rowe Tech Binary.  PD0 is an industry standard format used on TRDI systems.")
+        self.coordinateTransformComboBox.setToolTip("Select the coordinate Transform for PD0.  Beam = Raw Data, Instrument = X,Y,Z,Err, Earth=East,North,Vert,Err")
 
     def add_subsystem(self):
         """
@@ -146,6 +162,13 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
         :param value: New value.
         :return:
         """
+        # Disable coordinate transform if RTB is selected
+        if self.dataFormatComboBox.currentText() == "RTB":
+            self.coordinateTransformComboBox.setDisabled(True)
+        else:
+            self.coordinateTransformComboBox.setDisabled(False)
+
+        # Calculate prediction
         self.calculate()
 
     def calculate(self):
@@ -189,6 +212,19 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
         for ss in self.cepo_list:
             cepo += ss
         self.commandFileTextBrowser.append(cepo)
+
+        if self.dataFormatComboBox.currentText() == "RTB":
+            self.commandFileTextBrowser.append("CEOUTPUT 1")
+        else:
+            if self.coordinateTransformComboBox.currentText() == "Beam":
+                self.commandFileTextBrowser.append("CEOUTPUT 100,0 ")
+            elif self.coordinateTransformComboBox.currentText() == "Instrument":
+                self.commandFileTextBrowser.append("CEOUTPUT 100,1 ")
+            elif self.coordinateTransformComboBox.currentText() == "Earth":
+                self.commandFileTextBrowser.append("CEOUTPUT 100,2 ")
+            elif self.coordinateTransformComboBox.currentText() == "Ship":
+                self.commandFileTextBrowser.append("CEOUTPUT 100,3 ")
+
 
         self.commandFileTextBrowser.append("CEI " + Commands.sec_to_hmss(self.ceiDoubleSpinBox.value()))
         self.commandFileTextBrowser.append("CWS " + str(self.cwsSpinBox.value()))

@@ -225,6 +225,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         # Recalculate
         self.predictor.calculate()
 
+
     def valueChanged(self, value):
         """
         Monitor for any value changes then recalculate.
