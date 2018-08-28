@@ -222,6 +222,11 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         :param state:
         :return:
         """
+        if self.predictor.dataFormatComboBox.currentText() == "PD0":
+            self.cedAmpCheckBox.setDisabled(True)
+        else:
+            self.cedAmpCheckBox.setDisabled(False)
+
         # Recalculate
         self.predictor.calculate()
 
@@ -338,12 +343,10 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
 
         cei = self.predictor.ceiDoubleSpinBox.value()
 
-
         # Beam Diameter
         beamDia = 0.075                                 # 3 Inch
         if self.beamDiaComboBox.currentIndex() == 1:
             beamDia = 0.05                              # 2 Inch
-
 
         # Calculate
         self.calc_power = Power.calculate_power(DeploymentDuration=deployment,
@@ -426,6 +429,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                                                                DeploymentDuration=deployment,
                                                                Beams=self.numBeamsSpinBox.value(),
                                                                BeamAngle=self.beamAngleComboBox.itemData(self.beamAngleComboBox.currentIndex()),
+                                                               CEOUTPUT=self.predictor.dataFormatComboBox.currentText(),
                                                                CEI=cei,
                                                                CWPBN=self.cwpbnSpinBox.value(),
                                                                IsE0000001=self.cedBeamVelCheckBox.isChecked(),
@@ -446,6 +450,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         else:
             self.calc_data = DS.calculate_storage_amount(DeploymentDuration=deployment,
                                                          CEI=cei,
+                                                         CEOUTPUT=self.predictor.dataFormatComboBox.currentText(),
                                                          Beams=self.numBeamsSpinBox.value(),
                                                          BeamAngle=self.beamAngleComboBox.itemData(self.beamAngleComboBox.currentIndex()),
                                                          CWPBN=self.cwpbnSpinBox.value(),
@@ -535,6 +540,18 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         # Recording turned on
         if self.predictor.cerecordCheckBox.isChecked():
             cfg_status_str += "-Recording to the internal SD card.\n"
+
+        if self.predictor.dataFormatComboBox.currentText() == "RTB":
+            cfg_status_str += "-Data in RTB format.\n"
+        else:
+            if self.predictor.coordinateTransformComboBox.currentText() == "Beam":
+                cfg_status_str += "-Data in PD0 Beam format.\n"
+            elif self.predictor.coordinateTransformComboBox.currentText() == "Instrument":
+                cfg_status_str += "-Data in PD0 Instrument format.\n"
+            elif self.predictor.coordinateTransformComboBox.currentText() == "Earth":
+                cfg_status_str += "-Data in PD0 Earth format.\n"
+            elif self.predictor.coordinateTransformComboBox.currentText() == "Ship":
+                cfg_status_str += "-Data in PD0 Ship format.\n"
 
         #cfg_status_str += str(self.calc_max_vel)
         #cfg_status_str += str(self.calc_std)

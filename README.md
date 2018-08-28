@@ -66,6 +66,13 @@ OSX
 pyrcc4 -o images.qrc images_qr.py
 ```
 
+#Unit Testing
+```python
+cd ADCP\Predictor
+pytest
+```
+
+
 #Install Virtualenv in Windows
 ```python
 pip install virtualenv

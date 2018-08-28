@@ -106,6 +106,7 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
         self.cwsSpinBox.setToolTip(Commands.get_tooltip(cmds["CWS"]["desc"]))
         self.cwtSpinBox.setToolTip(Commands.get_tooltip(cmds["CWT"]["desc"]))
         self.ctdSpinBox.setToolTip(Commands.get_tooltip(cmds["CTD"]["desc"]))
+        self.dataFormatComboBox.setToolTip(Commands.get_tooltip(cmds["CEOUTPUT"]["desc"]))
         self.speedOfSoundSpinBox.setToolTip(Commands.get_tooltip(cmds["CWSS"]["desc"]))
         self.cerecordCheckBox.setToolTip(Commands.get_tooltip(cmds["CERECORD"]["desc"]))
         self.deploymentDurationSpinBox.setToolTip("Number of days the ADCP will be deployed.")
@@ -113,7 +114,7 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
         self.commandFileGroupBox.setToolTip("Command file generated from all the subsystem configurations.")
         self.subsystemConfigGroupBox.setToolTip("Select a subsystem to create a configuration.")
         self.saveCommandsButton.setToolTip("Save the commands to a text file.\nThe file will be saved to location of the application.\nThe file name will be the date and time.")
-        self.dataFormatComboBox.setToolTip("Select the data format.  RTB = Rowe Tech Binary.  PD0 is an industry standard format used on TRDI systems.")
+        #self.dataFormatComboBox.setToolTip("Select the data format.  RTB = Rowe Tech Binary.  PD0 is an industry standard format used on TRDI systems.")
         self.coordinateTransformComboBox.setToolTip("Select the coordinate Transform for PD0.  Beam = Raw Data, Instrument = X,Y,Z,Err, Earth=East,North,Vert,Err")
 
     def add_subsystem(self):
@@ -167,6 +168,42 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
             self.coordinateTransformComboBox.setDisabled(True)
         else:
             self.coordinateTransformComboBox.setDisabled(False)
+
+        for tab in range(self.tabSubsystem.count()):
+            if self.dataFormatComboBox.currentText() == "RTB":
+                self.tabSubsystem.widget(tab).cedBeamVelCheckBox.setDisabled(False)
+                self.tabSubsystem.widget(tab).cedInstrVelCheckBox.setDisabled(False)
+                self.tabSubsystem.widget(tab).cedEarthVelCheckBox.setDisabled(False)
+                self.tabSubsystem.widget(tab).cedAmpCheckBox.setDisabled(False)
+                self.tabSubsystem.widget(tab).cedCorrCheckBox.setDisabled(False)
+                self.tabSubsystem.widget(tab).cedBeamGoodPingCheckBox.setDisabled(False)
+                self.tabSubsystem.widget(tab).cedEarthGoodPingCheckBox.setDisabled(False)
+                self.tabSubsystem.widget(tab).cedEnsCheckBox.setDisabled(False)
+                self.tabSubsystem.widget(tab).cedAncCheckBox.setDisabled(False)
+                self.tabSubsystem.widget(tab).cedBtCheckBox.setDisabled(False)
+                self.tabSubsystem.widget(tab).cedNmeaCheckBox.setDisabled(False)
+                self.tabSubsystem.widget(tab).cedWpEngCheckBox.setDisabled(False)
+                self.tabSubsystem.widget(tab).cedBtEngCheckBox.setDisabled(False)
+                self.tabSubsystem.widget(tab).cedSysSettingCheckBox.setDisabled(False)
+                self.tabSubsystem.widget(tab).cedRangeTrackingCheckBox.setDisabled(False)
+            else:
+                self.tabSubsystem.widget(tab).cedBeamVelCheckBox.setDisabled(True)
+                self.tabSubsystem.widget(tab).cedBeamVelCheckBox.setDisabled(True)
+                self.tabSubsystem.widget(tab).cedInstrVelCheckBox.setDisabled(True)
+                self.tabSubsystem.widget(tab).cedEarthVelCheckBox.setDisabled(True)
+                self.tabSubsystem.widget(tab).cedAmpCheckBox.setDisabled(True)
+                self.tabSubsystem.widget(tab).cedCorrCheckBox.setDisabled(True)
+                self.tabSubsystem.widget(tab).cedBeamGoodPingCheckBox.setDisabled(True)
+                self.tabSubsystem.widget(tab).cedEarthGoodPingCheckBox.setDisabled(True)
+                self.tabSubsystem.widget(tab).cedEnsCheckBox.setDisabled(True)
+                self.tabSubsystem.widget(tab).cedAncCheckBox.setDisabled(True)
+                self.tabSubsystem.widget(tab).cedBtCheckBox.setDisabled(True)
+                self.tabSubsystem.widget(tab).cedNmeaCheckBox.setDisabled(True)
+                self.tabSubsystem.widget(tab).cedWpEngCheckBox.setDisabled(True)
+                self.tabSubsystem.widget(tab).cedBtEngCheckBox.setDisabled(True)
+                self.tabSubsystem.widget(tab).cedSysSettingCheckBox.setDisabled(True)
+                self.tabSubsystem.widget(tab).cedRangeTrackingCheckBox.setDisabled(True)
+
 
         # Calculate prediction
         self.calculate()
