@@ -935,6 +935,19 @@
      <string>LOAD</string>
     </property>
    </widget>
+   <widget class="QPushButton" name="duplicateButton">
+    <property name="geometry">
+     <rect>
+      <x>320</x>
+      <y>30</y>
+      <width>101</width>
+      <height>32</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>DUPLICATE</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QGroupBox" name="groupBox_11">
    <property name="geometry">

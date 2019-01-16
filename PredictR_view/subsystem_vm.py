@@ -596,13 +596,13 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                 frac = str(self.cwprtRangeFractionSpinBox.value())
                 command_list.append(Commands.AdcpCmd("CWPRT", "2, " + frac))                            # CWPRT
 
+        # CBTON
         if self.cbtonCheckBox.isChecked():
-            # CBTON
-            if self.cbtonCheckBox.isChecked():
-                command_list.append(Commands.AdcpCmd("CBTON", "1"))
-            else:
-                command_list.append(Commands.AdcpCmd("CBTON", "0"))
+            command_list.append(Commands.AdcpCmd("CBTON", "1"))
+        else:
+            command_list.append(Commands.AdcpCmd("CBTON", "0"))
 
+        if self.cbtonCheckBox.isChecked():
             #CBTBB
             cbtbb_val = self.cbtbbComboBox.itemData(self.cbtbbComboBox.currentIndex())
             if cbtbb_val == 0:

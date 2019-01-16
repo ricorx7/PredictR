@@ -25,7 +25,7 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
         self.calc_data = 0.0
         self.calc_num_batt = 0.0
 
-        self.revLabel.setText("© RoweTech Inc. Rev 1.8")
+        self.revLabel.setText("© RoweTech Inc. Rev 1.9")
 
         # Connect the buttons
         self.addSubsystemButton.clicked.connect(self.add_subsystem)
@@ -126,7 +126,7 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
 
         # Create the subsystem view
         # Add it to the Tab
-        ssUI = subsystem_view.Ui_Subsystem()
+        #ssUI = subsystem_view.Ui_Subsystem()
         ssVM = subsystem_vm.SubsystemVM(self.tabSubsystem, self, ss)
         ss_label = "[" + str(ss) + "] - " + SS.ss_label(ss)
         self.tabSubsystem.addTab(ssVM, ss_label)
