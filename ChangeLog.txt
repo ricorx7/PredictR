@@ -1,5 +1,9 @@
 ChangeLog PredictR
 
+PredictR-1.9
+ * Fixed setting CBTON 0
+ * Removed option to turn off serial communication
+
 PredictR-1.8
  * Added PD0 data storage size.
  * Added Coordinate Transform for PD0.
