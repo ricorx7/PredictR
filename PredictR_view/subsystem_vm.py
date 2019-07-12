@@ -91,6 +91,18 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         self.cedSysSettingCheckBox.setCheckState(2)
         self.cedRangeTrackingCheckBox.setCheckState(2)
 
+        # Disable certain data types if PD0
+        if self.predictor.dataFormatComboBox.currentText() == "RTB":
+            self.cedWpEngCheckBox.setDisabled(False)
+            self.cedBtEngCheckBox.setDisabled(False)
+            self.cedSysSettingCheckBox.setDisabled(False)
+            self.cedRangeTrackingCheckBox.setDisabled(False)
+        else:
+            self.cedWpEngCheckBox.setDisabled(True)
+            self.cedBtEngCheckBox.setDisabled(True)
+            self.cedSysSettingCheckBox.setDisabled(True)
+            self.cedRangeTrackingCheckBox.setDisabled(True)
+
         # Check SS code to know how many beams
         if self.ss_code == 'A' or self.ss_code == 'B' or self.ss_code == 'C' or self.ss_code == 'D' or self.ss_code == 'E':
             self.numBeamsSpinBox.setValue(1)
@@ -222,10 +234,18 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         :param state:
         :return:
         """
+        """
         if self.predictor.dataFormatComboBox.currentText() == "PD0":
-            self.cedAmpCheckBox.setDisabled(True)
+            self.cedSysSettingCheckBox.setDisabled(True)
+            self.cedBtEngCheckBox.setDisabled(True)
+            self.cedWpEngCheckBox.setDisabled(True)
+            self.cedRangeTrackingCheckBox.setDisabled(True)
         else:
-            self.cedAmpCheckBox.setDisabled(False)
+            self.cedSysSettingCheckBox.setDisabled(False)
+            self.cedBtEngCheckBox.setDisabled(False)
+            self.cedWpEngCheckBox.setDisabled(False)
+            self.cedRangeTrackingCheckBox.setDisabled(False)
+        """
 
         # Recalculate
         self.predictor.calculate()

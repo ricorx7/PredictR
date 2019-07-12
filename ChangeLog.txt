@@ -1,5 +1,9 @@
 ChangeLog PredictR
 
+PredictR-1.10
+ * Fixed amplitude being disabled with PD0
+ * Made PD0 only disable specific data types
+
 PredictR-1.9
  * Fixed setting CBTON 0
  * Removed option to turn off serial communication
