@@ -3,6 +3,7 @@ ChangeLog PredictR
 PredictR-1.10
  * Fixed amplitude being disabled with PD0
  * Made PD0 only disable specific data types
+ * Fixed bug in setting the profile range greater than 1000.
 
 PredictR-1.9
  * Fixed setting CBTON 0
