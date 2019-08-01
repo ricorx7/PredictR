@@ -25,7 +25,7 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
         self.calc_data = 0.0
         self.calc_num_batt = 0.0
 
-        self.revLabel.setText("© RoweTech Inc. Rev 1.10")
+        self.revLabel.setText("© RoweTech Inc. Rev 1.11")
 
         # Connect the buttons
         self.addSubsystemButton.clicked.connect(self.add_subsystem)
@@ -236,6 +236,20 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
         self.dataUsageLabel.setText(str(DS.bytes_2_human_readable(self.calc_data)))
         self.dataUsageLabel.setStyleSheet("font-weight: bold; color: blue")
 
+        # Salinity Label
+        self.salinityLabel.setStyleSheet("font-weight: bold; color: blue")
+        if self.cwsSpinBox.value() == 0:
+            self.salinityLabel.setText("Fresh Water")
+        else:
+            self.salinityLabel.setText("Salt Water")
+
+        # Recording Label
+        self.recordingLabel.setStyleSheet("font-weight: bold; color: blue")
+        if self.cerecordCheckBox.isChecked():
+            self.recordingLabel.setText("Recording ON")
+        else:
+            self.recordingLabel.setText("Recording OFF")
+
         # Update the command file
         self.update_command_file()
 
@@ -261,7 +275,6 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
                 self.commandFileTextBrowser.append("CEOUTPUT 100,2 ")
             elif self.coordinateTransformComboBox.currentText() == "Ship":
                 self.commandFileTextBrowser.append("CEOUTPUT 100,3 ")
-
 
         self.commandFileTextBrowser.append("CEI " + Commands.sec_to_hmss(self.ceiDoubleSpinBox.value()))
         self.commandFileTextBrowser.append("CWS " + str(self.cwsSpinBox.value()))

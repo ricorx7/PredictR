@@ -560,6 +560,8 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         # Recording turned on
         if self.predictor.cerecordCheckBox.isChecked():
             cfg_status_str += "-Recording to the internal SD card.\n"
+        else:
+            cfg_status_str += "-Data is NOT recorded internally.\n"
 
         if self.predictor.dataFormatComboBox.currentText() == "RTB":
             cfg_status_str += "-Data in RTB format.\n"
@@ -572,6 +574,11 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                 cfg_status_str += "-Data in PD0 Earth format.\n"
             elif self.predictor.coordinateTransformComboBox.currentText() == "Ship":
                 cfg_status_str += "-Data in PD0 Ship format.\n"
+
+        if self.predictor.cwsSpinBox.value() == 0:
+            cfg_status_str += "-Salinity set for FRESH water.\n"
+        else:
+            cfg_status_str += "-Salinity set for SALT water.\n"
 
         #cfg_status_str += str(self.calc_max_vel)
         #cfg_status_str += str(self.calc_std)
@@ -634,13 +641,11 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
 
         if self.cbiEnabledCheckBox.isChecked():
             cbi_num_ens = str(self.cbiNumEnsSpinBox.value())
-        else:
-            cbi_num_ens = str(0)
-        cbi_interval = Commands.sec_to_hmss(self.cbiBurstIntervalDoubleSpinBox.value())
-        if self.cbiInterleaveCheckBox.isChecked():
-            command_list.append(Commands.AdcpCmd("CBI", cbi_interval + ", " + cbi_num_ens + " ,1"))     # CBI
-        else:
-            command_list.append(Commands.AdcpCmd("CBI", cbi_interval + ", " + cbi_num_ens + " ,0"))     # CBI
+            cbi_interval = Commands.sec_to_hmss(self.cbiBurstIntervalDoubleSpinBox.value())
+            if self.cbiInterleaveCheckBox.isChecked():
+                command_list.append(Commands.AdcpCmd("CBI", cbi_interval + ", " + cbi_num_ens + " ,1"))  # CBI
+            else:
+                command_list.append(Commands.AdcpCmd("CBI", cbi_interval + ", " + cbi_num_ens + " ,0"))  # CBI
 
         # CED
         ced = ""

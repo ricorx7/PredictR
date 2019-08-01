@@ -15,7 +15,7 @@ You will need to install MSVC 2015 redistribution.
 Then add C:\Program Files (x86)\Windows Kits\10\Redist\ucrt\DLLs\x64 to environment PATH. Then the warning message about api-ms-win-crt-***.dll will disappear and all works correctly.
 
 ```javascript
-C:\Users\XXX\AppData\Local\Programs\Python\Python35\Scripts\pyinstaller.exe Predictr_installer_WIN.spec
+venv\Scripts\pyinstaller.exe Predictr_installer_WIN.spec
 ```
 
 This will create a dist and build folder.  The exe in is the dist folder.
@@ -29,7 +29,7 @@ pyinstaller /path/to/mainwindow.py --windowed --onefile
 
 Windows
 ```javascript
-C:\Users\XXX\AppData\Local\Programs\Python\Python35\Scripts\pyinstaller.exe  --windowed --onefile --paths C:\Users\XXX\AppData\Roaming\Python\Python35\site-packages\PyQt5\Qt\bin /path/to/mainwindow.py
+venv\Scripts\pyinstaller.exe  --windowed --onefile --paths C:\Users\XXX\AppData\Roaming\Python\Python35\site-packages\PyQt5\Qt\bin /path/to/mainwindow.py
 
 or
 

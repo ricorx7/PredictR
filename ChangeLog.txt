@@ -1,5 +1,12 @@
 ChangeLog PredictR
 
+PredictR-1.11
+ - If CBI disabled, do not display the command in the list
+ - Made the Total Prediction more obvious at the top.
+ - Cleaned up layout
+ - Include warning for salinity
+ - Include warning for recording
+
 PredictR-1.10
  * Fixed amplitude being disabled with PD0
  * Made PD0 only disable specific data types
