@@ -41,9 +41,9 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         self.maxVelLabel.setStyleSheet("font-weight: bold; color: blue; font-size: 10pt")
         self.dataUsageLabel.setStyleSheet("font-weight: bold; color: blue; font-size: 10pt")
         self.stdLabel.setStyleSheet("font-weight: bold; color: blue; font-size: 10pt")
-        self.predictionGroupBox.setStyleSheet("QGroupBox#predictionGroupBox { background: #e3f2fd }\n QGroupBox::title { background-color: transparent; }")
-        self.statusGroupBox.setStyleSheet("QGroupBox { background: #e0f2f1 }\n QGroupBox::title { background-color: transparent; }")
-        self.errorGroupBox.setStyleSheet("QGroupBox { background: #ffebee }\n QGroupBox::title { background-color: transparent; }")
+        self.predictionGroupBox.setStyleSheet("QGroupBox#predictionGroupBox { background: #639ecf }\n QGroupBox::title { background-color: transparent; }")
+        self.statusGroupBox.setStyleSheet("QGroupBox { background: #92cf63 }\n QGroupBox::title { background-color: transparent; }")
+        self.errorGroupBox.setStyleSheet("QGroupBox { background: #cf6363 }\n QGroupBox::title { background-color: transparent; }")
 
         # Set the values based off the preset
         self.presetButton.clicked.connect(self.set_preset)

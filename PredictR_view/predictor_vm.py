@@ -29,8 +29,8 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
 
         # Connect the buttons
         self.addSubsystemButton.clicked.connect(self.add_subsystem)
-        self.addSubsystemButton.setStyleSheet("background: #c8e6c9")
-        self.predictionGroupBox.setStyleSheet("QGroupBox { background: #e3f2fd }\n QGroupBox::title { background-color: transparent; }")
+        self.addSubsystemButton.setStyleSheet("background: #6b6df2")
+        self.predictionGroupBox.setStyleSheet("QGroupBox { background: #639ecf }\n QGroupBox::title { background-color: transparent; }")
 
         self.tabSubsystem.setTabsClosable(True)
         self.tabSubsystem.clear()
