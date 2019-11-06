@@ -32,6 +32,12 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
         self.addSubsystemButton.setStyleSheet("background: #6b6df2")
         self.predictionGroupBox.setStyleSheet("QGroupBox { background: #639ecf }\n QGroupBox::title { background-color: transparent; }")
 
+        self.powerLabel.setStyleSheet("color: black")
+        self.numBatteriesLabel.setStyleSheet("color: black")
+        self.dataUsageLabel.setStyleSheet("color: black")
+        self.salinityLabel.setStyleSheet("color: black")
+        self.recordingLabel.setStyleSheet("color: black")
+
         self.tabSubsystem.setTabsClosable(True)
         self.tabSubsystem.clear()
         self.tabSubsystem.tabCloseRequested.connect(self.tab_close_requested)
@@ -127,7 +133,29 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
         # Create the subsystem view
         # Add it to the Tab
         #ssUI = subsystem_view.Ui_Subsystem()
-        ssVM = subsystem_vm.SubsystemVM(self.tabSubsystem, self, ss)
+        ssVM = subsystem_vm.SubsystemVM(self.tabSubsystem, self, ss, None)
+        ss_label = "[" + str(ss) + "] - " + SS.ss_label(ss)
+        self.tabSubsystem.addTab(ssVM, ss_label)
+
+        # Add subsystem to CEPO
+        self.cepo_list.append(ss)
+
+        # Recalculate
+        self.calculate()
+
+        self.parent.statusBar().showMessage(ss_label + ' added to configuration.')
+
+    def clone_subsystem(self, ss_clone_vm):
+        """
+        Clone a tab for the given subsystem, based on the viewmodel given.
+        :param ss_clone_vm Subsystem config ViewModel to clone.
+        :return:
+        """
+        ss = ss_clone_vm.ss_code
+
+        # Create the subsystem view
+        # Add it to the Tab
+        ssVM = subsystem_vm.SubsystemVM(self.tabSubsystem, self, ss, ss_clone_vm)
         ss_label = "[" + str(ss) + "] - " + SS.ss_label(ss)
         self.tabSubsystem.addTab(ssVM, ss_label)
 
@@ -230,21 +258,16 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
 
         # Update the display
         self.powerLabel.setText(str(round(self.calc_power, 2)) + " watt*hr")
-        self.powerLabel.setStyleSheet("font-weight: bold; color: blue")
         self.numBatteriesLabel.setText(str(round(self.calc_num_batt, 2)) + " batteries")
-        self.numBatteriesLabel.setStyleSheet("font-weight: bold; color: blue")
         self.dataUsageLabel.setText(str(DS.bytes_2_human_readable(self.calc_data)))
-        self.dataUsageLabel.setStyleSheet("font-weight: bold; color: blue")
 
         # Salinity Label
-        self.salinityLabel.setStyleSheet("font-weight: bold; color: blue")
         if self.cwsSpinBox.value() == 0:
             self.salinityLabel.setText("Fresh Water")
         else:
             self.salinityLabel.setText("Salt Water")
 
         # Recording Label
-        self.recordingLabel.setStyleSheet("font-weight: bold; color: blue")
         if self.cerecordCheckBox.isChecked():
             self.recordingLabel.setText("Recording ON")
         else:

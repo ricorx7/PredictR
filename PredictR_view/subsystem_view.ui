@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>863</width>
-    <height>867</height>
+    <width>1147</width>
+    <height>976</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -164,20 +164,212 @@
       </widget>
      </item>
      <item>
+      <layout class="QVBoxLayout" name="verticalLayout_5">
+       <item>
+        <widget class="QGroupBox" name="groupBox_2">
+         <property name="title">
+          <string>Bottom Track</string>
+         </property>
+         <layout class="QFormLayout" name="formLayout_3">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_9">
+            <property name="text">
+             <string>CBTON</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QCheckBox" name="cbtonCheckBox">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_10">
+            <property name="text">
+             <string>CBTBB</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QComboBox" name="cbtbbComboBox"/>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_11">
+            <property name="text">
+             <string>CBTTBP (s)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QDoubleSpinBox" name="cbttbpDoubleSpinBox">
+            <property name="value">
+             <double>0.010000000000000</double>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
+        <widget class="QGroupBox" name="groupBox_11">
+         <property name="title">
+          <string>Range Tracking</string>
+         </property>
+         <layout class="QFormLayout" name="formLayout_7">
+          <item row="1" column="1">
+           <widget class="QComboBox" name="rangeTrackingComboBox"/>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_22">
+            <property name="text">
+             <string>Range Fraction</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QDoubleSpinBox" name="cwprtRangeFractionSpinBox">
+            <property name="value">
+             <double>0.500000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_24">
+            <property name="text">
+             <string>Minimum Bin</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QSpinBox" name="cwprtMinBinSpinBox"/>
+          </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="label_26">
+            <property name="text">
+             <string>Maximum Bin</string>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QSpinBox" name="cwprtMaxBinSpinBox"/>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_20">
+            <property name="text">
+             <string>Range Tracking</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <layout class="QVBoxLayout" name="verticalLayout_7">
+       <item>
+        <widget class="QGroupBox" name="groupBox_3">
+         <property name="title">
+          <string>Burst Mode</string>
+         </property>
+         <layout class="QFormLayout" name="formLayout_6">
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_13">
+            <property name="text">
+             <string>Burst Interval (s)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QDoubleSpinBox" name="cbiBurstIntervalDoubleSpinBox">
+            <property name="minimum">
+             <double>0.000000000000000</double>
+            </property>
+            <property name="maximum">
+             <double>86400.000000000000000</double>
+            </property>
+            <property name="value">
+             <double>3600.000000000000000</double>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_14">
+            <property name="text">
+             <string>Number of Ensembles</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QSpinBox" name="cbiNumEnsSpinBox">
+            <property name="maximum">
+             <number>5000</number>
+            </property>
+            <property name="singleStep">
+             <number>128</number>
+            </property>
+            <property name="value">
+             <number>1024</number>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="0">
+           <widget class="QLabel" name="label_18">
+            <property name="text">
+             <string>Interleave</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_12">
+            <property name="text">
+             <string>Burst Mode ON</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QCheckBox" name="cbiEnabledCheckBox">
+            <property name="text">
+             <string/>
+            </property>
+           </widget>
+          </item>
+          <item row="4" column="1">
+           <widget class="QSpinBox" name="cbiInterleaveSpinBox"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
       <layout class="QVBoxLayout" name="verticalLayout_6">
        <item>
         <widget class="QGroupBox" name="recommendSettingGroupBox">
          <property name="title">
           <string>Recommend Setting</string>
          </property>
-         <layout class="QFormLayout" name="formLayout_4">
-          <item row="0" column="0">
-           <widget class="QComboBox" name="recommendCfgComboBox"/>
+         <layout class="QVBoxLayout" name="verticalLayout_4">
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_5">
+            <item>
+             <widget class="QPushButton" name="presetButton">
+              <property name="text">
+               <string>LOAD</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QComboBox" name="recommendCfgComboBox"/>
+            </item>
+           </layout>
           </item>
-          <item row="0" column="1">
-           <widget class="QPushButton" name="presetButton">
+          <item>
+           <widget class="QPushButton" name="cloneButton">
             <property name="text">
-             <string>LOAD</string>
+             <string>Clone</string>
             </property>
            </widget>
           </item>
@@ -233,184 +425,7 @@
          </layout>
         </widget>
        </item>
-       <item>
-        <widget class="QGroupBox" name="groupBox_2">
-         <property name="title">
-          <string>Bottom Track</string>
-         </property>
-         <layout class="QFormLayout" name="formLayout_3">
-          <item row="0" column="0">
-           <widget class="QLabel" name="label_9">
-            <property name="text">
-             <string>CBTON</string>
-            </property>
-           </widget>
-          </item>
-          <item row="0" column="1">
-           <widget class="QCheckBox" name="cbtonCheckBox">
-            <property name="text">
-             <string/>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="0">
-           <widget class="QLabel" name="label_10">
-            <property name="text">
-             <string>CBTBB</string>
-            </property>
-           </widget>
-          </item>
-          <item row="1" column="1">
-           <widget class="QComboBox" name="cbtbbComboBox"/>
-          </item>
-          <item row="2" column="0">
-           <widget class="QLabel" name="label_11">
-            <property name="text">
-             <string>CBTTBP (s)</string>
-            </property>
-           </widget>
-          </item>
-          <item row="2" column="1">
-           <widget class="QDoubleSpinBox" name="cbttbpDoubleSpinBox"/>
-          </item>
-         </layout>
-        </widget>
-       </item>
       </layout>
-     </item>
-    </layout>
-   </item>
-   <item>
-    <layout class="QHBoxLayout" name="horizontalLayout_3">
-     <item>
-      <widget class="QGroupBox" name="groupBox_3">
-       <property name="title">
-        <string>Burst Mode</string>
-       </property>
-       <layout class="QFormLayout" name="formLayout_6">
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_13">
-          <property name="text">
-           <string>Burst Interval (s)</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QDoubleSpinBox" name="cbiBurstIntervalDoubleSpinBox">
-          <property name="minimum">
-           <double>0.000000000000000</double>
-          </property>
-          <property name="maximum">
-           <double>86400.000000000000000</double>
-          </property>
-          <property name="value">
-           <double>3600.000000000000000</double>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="label_14">
-          <property name="text">
-           <string>Number of Ensembles</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1">
-         <widget class="QSpinBox" name="cbiNumEnsSpinBox">
-          <property name="maximum">
-           <number>5000</number>
-          </property>
-          <property name="singleStep">
-           <number>128</number>
-          </property>
-          <property name="value">
-           <number>1024</number>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="label_18">
-          <property name="text">
-           <string>Interleave</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="1">
-         <widget class="QCheckBox" name="cbiInterleaveCheckBox">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_12">
-          <property name="text">
-           <string>Burst Mode ON</string>
-          </property>
-         </widget>
-        </item>
-        <item row="1" column="1">
-         <widget class="QCheckBox" name="cbiEnabledCheckBox">
-          <property name="text">
-           <string/>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
-     </item>
-     <item>
-      <widget class="QGroupBox" name="groupBox_11">
-       <property name="title">
-        <string>Range Tracking</string>
-       </property>
-       <layout class="QFormLayout" name="formLayout_7">
-        <item row="1" column="1">
-         <widget class="QComboBox" name="rangeTrackingComboBox"/>
-        </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_22">
-          <property name="text">
-           <string>Range Fraction</string>
-          </property>
-         </widget>
-        </item>
-        <item row="2" column="1">
-         <widget class="QDoubleSpinBox" name="cwprtRangeFractionSpinBox">
-          <property name="value">
-           <double>0.500000000000000</double>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="0">
-         <widget class="QLabel" name="label_24">
-          <property name="text">
-           <string>Minimum Bin</string>
-          </property>
-         </widget>
-        </item>
-        <item row="3" column="1">
-         <widget class="QSpinBox" name="cwprtMinBinSpinBox"/>
-        </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="label_26">
-          <property name="text">
-           <string>Maximum Bin</string>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="1">
-         <widget class="QSpinBox" name="cwprtMaxBinSpinBox"/>
-        </item>
-        <item row="1" column="0">
-         <widget class="QLabel" name="label_20">
-          <property name="text">
-           <string>Range Tracking</string>
-          </property>
-         </widget>
-        </item>
-       </layout>
-      </widget>
      </item>
     </layout>
    </item>
@@ -551,7 +566,7 @@
             </font>
            </property>
            <property name="text">
-            <string>Num Batteries: </string>
+            <string>Number of Batteries: </string>
            </property>
            <property name="alignment">
             <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>

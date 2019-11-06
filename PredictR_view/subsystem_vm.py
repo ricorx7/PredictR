@@ -15,7 +15,15 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
     Subsystem settings.
     """
 
-    def __init__(self, parent, predictor, ss_code):
+    def __init__(self, parent, predictor, ss_code, ss_vm_clone):
+        """
+        Initialize the ViewModel.  If ss_vm_clone is None, then create a default
+        configuration.  If ss_vm_clone is a value, then we are cloning a VM.
+        :param parent: Tab Parent window.
+        :param predictor: Predictor VM.
+        :param ss_code: Subsystem code.
+        :param ss_vm_clone: If cloning a VM, this value will not be None.
+        """
         subsystem_view.Ui_Subsystem.__init__(self)
         QWidget.__init__(self, parent)
         self.setupUi(self)
@@ -29,24 +37,25 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
 
         # Set the style
         #self.freqLabel.setStyleSheet("font-weight: bold; color: red; font-size: 16px")
-        self.pingingTextBrowser.setStyleSheet(
-            "font-size: 8pt; background-color: transparent")
-        self.errorTextBrowser.setStyleSheet(
-            "font-size: 8pt; background-color: transparent")
-        self.powerLabel.setStyleSheet("font-weight: bold; color: blue; font-size: 8pt")
-        self.numBatteriesLabel.setStyleSheet("font-weight: bold; color: blue; font-size: 8pt")
-        self.wpRangeLabel.setStyleSheet("font-weight: bold; color: blue; font-size: 10pt")
-        self.btRangeLabel.setStyleSheet("font-weight: bold; color: blue; font-size: 10pt")
-        self.firstBinPosLabel.setStyleSheet("font-weight: bold; color: blue; font-size: 10pt")
-        self.maxVelLabel.setStyleSheet("font-weight: bold; color: blue; font-size: 10pt")
-        self.dataUsageLabel.setStyleSheet("font-weight: bold; color: blue; font-size: 10pt")
-        self.stdLabel.setStyleSheet("font-weight: bold; color: blue; font-size: 10pt")
+        self.pingingTextBrowser.setStyleSheet("font-size: 10pt; color: white; background-color: transparent")
+        self.errorTextBrowser.setStyleSheet("font-size: 10pt; color: white; background-color: transparent")
+        self.powerLabel.setStyleSheet("color: black; font-size: 12pt")
+        self.numBatteriesLabel.setStyleSheet("color: black; font-size: 12pt")
+        self.wpRangeLabel.setStyleSheet("color: black; font-size: 12pt")
+        self.btRangeLabel.setStyleSheet("color: black; font-size: 12pt")
+        self.firstBinPosLabel.setStyleSheet("color: black; font-size: 12pt")
+        self.maxVelLabel.setStyleSheet("color: black; font-size: 12pt")
+        self.dataUsageLabel.setStyleSheet("color: black; font-size: 12pt")
+        self.stdLabel.setStyleSheet("color: black; font-size: 12pt")
         self.predictionGroupBox.setStyleSheet("QGroupBox#predictionGroupBox { background: #639ecf }\n QGroupBox::title { background-color: transparent; }")
-        self.statusGroupBox.setStyleSheet("QGroupBox { background: #92cf63 }\n QGroupBox::title { background-color: transparent; }")
-        self.errorGroupBox.setStyleSheet("QGroupBox { background: #cf6363 }\n QGroupBox::title { background-color: transparent; }")
+        self.statusGroupBox.setStyleSheet("QGroupBox { background: #3D9970 }\n QGroupBox::title { background-color: transparent; }")
+        self.errorGroupBox.setStyleSheet("QGroupBox { color: black; background: #cf6363 }\n QGroupBox::title { background-color: transparent; }")
 
         # Set the values based off the preset
         self.presetButton.clicked.connect(self.set_preset)
+
+        # Clone the VM settings
+        self.cloneButton.clicked.connect(self.clone_me)
 
         # Calculated results
         self.calc_power = 0.0
@@ -63,12 +72,63 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         self.init_list()
         self.set_tooltips()
 
-        # Get the checkbox state
+        # Set the checkbox state to enable and disable fields
         self.cwponCheckBox.stateChanged.connect(self.cwpon_enable_disable)
         self.cbtonCheckBox.stateChanged.connect(self.cbton_enable_disable)
         self.cbiEnabledCheckBox.stateChanged.connect(self.cbi_enable_disable)
         self.rangeTrackingComboBox.currentIndexChanged.connect(self.cwprt_enable_disable)
 
+        # Clone or set default config
+        if ss_vm_clone is not None:
+            # Clone the config
+            self.clone_config(ss_vm_clone)
+        else:
+            # Set default config
+            self.set_default_config()
+
+        # Watch for changes to recalculate
+        self.cedBeamVelCheckBox.stateChanged.connect(self.stateChanged)
+        self.cedInstrVelCheckBox.stateChanged.connect(self.stateChanged)
+        self.cedEarthVelCheckBox.stateChanged.connect(self.stateChanged)
+        self.cedAmpCheckBox.stateChanged.connect(self.stateChanged)
+        self.cedCorrCheckBox.stateChanged.connect(self.stateChanged)
+        self.cedBeamGoodPingCheckBox.stateChanged.connect(self.stateChanged)
+        self.cedEarthGoodPingCheckBox.stateChanged.connect(self.stateChanged)
+        self.cedEnsCheckBox.stateChanged.connect(self.stateChanged)
+        self.cedAncCheckBox.stateChanged.connect(self.stateChanged)
+        self.cedBtCheckBox.stateChanged.connect(self.stateChanged)
+        self.cedNmeaCheckBox.stateChanged.connect(self.stateChanged)
+        self.cedWpEngCheckBox.stateChanged.connect(self.stateChanged)
+        self.cedBtEngCheckBox.stateChanged.connect(self.stateChanged)
+        self.cedSysSettingCheckBox.stateChanged.connect(self.stateChanged)
+        self.cedRangeTrackingCheckBox.stateChanged.connect(self.stateChanged)
+        self.cwpblDoubleSpinBox.valueChanged.connect(self.valueChanged)
+        self.cwpbsDoubleSpinBox.valueChanged.connect(self.valueChanged)
+        self.cwpbnSpinBox.valueChanged.connect(self.valueChanged)
+        self.cwpbbDoubleSpinBox.valueChanged.connect(self.valueChanged)
+        self.cwpbbComboBox.currentIndexChanged.connect(self.valueChanged)
+        self.cwppSpinBox.valueChanged.connect(self.valueChanged)
+        self.cwptbpDoubleSpinBox.valueChanged.connect(self.valueChanged)
+        self.cbtbbComboBox.currentIndexChanged.connect(self.valueChanged)
+        self.cbttbpDoubleSpinBox.valueChanged.connect(self.valueChanged)
+        self.cbiBurstIntervalDoubleSpinBox.valueChanged.connect(self.valueChanged)
+        self.cbiNumEnsSpinBox.valueChanged.connect(self.valueChanged)
+        self.cbiInterleaveSpinBox.valueChanged.connect(self.valueChanged)
+        self.numBeamsSpinBox.valueChanged.connect(self.valueChanged)
+        self.cwprtRangeFractionSpinBox.valueChanged.connect(self.valueChanged)
+        self.cwprtMinBinSpinBox.valueChanged.connect(self.valueChanged)
+        self.cwprtMaxBinSpinBox.valueChanged.connect(self.valueChanged)
+        self.beamDiaComboBox.currentIndexChanged.connect(self.stateChanged)
+        self.beamAngleComboBox.currentIndexChanged.connect(self.stateChanged)
+
+        # Show initial results
+        self.calculate()
+
+    def set_default_config(self):
+        """
+        Set the default configuration for the subsystem.
+        :return:
+        """
         # Init defaults
         self.cwponCheckBox.setCheckState(2)
         self.cbtonCheckBox.setCheckState(0)
@@ -112,45 +172,205 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         if self.ss_code == '2' or self.ss_code == '6' or self.ss_code == 'A':
             self.beamDiaComboBox.setCurrentIndex(1)
 
-        # Watch for changes to recalculate
-        self.cedBeamVelCheckBox.stateChanged.connect(self.stateChanged)
-        self.cedInstrVelCheckBox.stateChanged.connect(self.stateChanged)
-        self.cedEarthVelCheckBox.stateChanged.connect(self.stateChanged)
-        self.cedAmpCheckBox.stateChanged.connect(self.stateChanged)
-        self.cedCorrCheckBox.stateChanged.connect(self.stateChanged)
-        self.cedBeamGoodPingCheckBox.stateChanged.connect(self.stateChanged)
-        self.cedEarthGoodPingCheckBox.stateChanged.connect(self.stateChanged)
-        self.cedEnsCheckBox.stateChanged.connect(self.stateChanged)
-        self.cedAncCheckBox.stateChanged.connect(self.stateChanged)
-        self.cedBtCheckBox.stateChanged.connect(self.stateChanged)
-        self.cedNmeaCheckBox.stateChanged.connect(self.stateChanged)
-        self.cedWpEngCheckBox.stateChanged.connect(self.stateChanged)
-        self.cedBtEngCheckBox.stateChanged.connect(self.stateChanged)
-        self.cedSysSettingCheckBox.stateChanged.connect(self.stateChanged)
-        self.cedRangeTrackingCheckBox.stateChanged.connect(self.stateChanged)
-        self.cwpblDoubleSpinBox.valueChanged.connect(self.valueChanged)
-        self.cwpbsDoubleSpinBox.valueChanged.connect(self.valueChanged)
-        self.cwpbnSpinBox.valueChanged.connect(self.valueChanged)
-        self.cwpbbDoubleSpinBox.valueChanged.connect(self.valueChanged)
-        self.cwpbbComboBox.currentIndexChanged.connect(self.valueChanged)
-        self.cwppSpinBox.valueChanged.connect(self.valueChanged)
-        self.cwptbpDoubleSpinBox.valueChanged.connect(self.valueChanged)
-        self.cbtbbComboBox.currentIndexChanged.connect(self.valueChanged)
-        self.cbttbpDoubleSpinBox.valueChanged.connect(self.valueChanged)
-        self.cbiBurstIntervalDoubleSpinBox.valueChanged.connect(self.valueChanged)
-        self.cbiNumEnsSpinBox.valueChanged.connect(self.valueChanged)
-        self.cbiInterleaveCheckBox.stateChanged.connect(self.valueChanged)
-        self.numBeamsSpinBox.valueChanged.connect(self.valueChanged)
-        self.cwprtRangeFractionSpinBox.valueChanged.connect(self.valueChanged)
-        self.cwprtMinBinSpinBox.valueChanged.connect(self.valueChanged)
-        self.cwprtMaxBinSpinBox.valueChanged.connect(self.valueChanged)
-        self.beamDiaComboBox.currentIndexChanged.connect(self.stateChanged)
-        self.beamAngleComboBox.currentIndexChanged.connect(self.stateChanged)
+    def clone_config(self, ss_vm_clone):
+        """
+        Set the configuration based on the VM given.
+        :param ss_vm_clone Clone of the VM.
+        :return:
+        """
+        # Init defaults
+        # CWPON
+        if ss_vm_clone.cwponCheckBox.isChecked():
+            self.cwponCheckBox.setCheckState(2)
+            self.cwpon_enable_disable(2)
+        else:
+            self.cwponCheckBox.setCheckState(0)
+            self.cwpon_enable_disable(0)
 
-        # Show initial results
-        self.calculate()
+        # CWPBL
+        self.cwpblDoubleSpinBox.setValue(ss_vm_clone.cwpblDoubleSpinBox.value())
+
+        # CWPBN
+        self.cwpbnSpinBox.setValue(ss_vm_clone.cwpbnSpinBox.value())
+
+        # CWPBS
+        self.cwpbsDoubleSpinBox.setValue(ss_vm_clone.cwpbsDoubleSpinBox.value())
+
+        # CWPBB LL
+        self.cwpbbDoubleSpinBox.setValue(ss_vm_clone.cwpbbDoubleSpinBox.value())
+
+        # CWPBB Pulse Type
+        self.cwpbbComboBox.setCurrentIndex(ss_vm_clone.cwpbbComboBox.currentIndex())
+
+        # CWPP
+        self.cwppSpinBox.setValue(ss_vm_clone.cwppSpinBox.value())
+
+        # CWPTBP
+        self.cwptbpDoubleSpinBox.setValue(ss_vm_clone.cwptbpDoubleSpinBox.value())
+
+        # CBTON
+        if ss_vm_clone.cbtonCheckBox.isChecked():
+            self.cbtonCheckBox.setCheckState(2)
+            self.cbton_enable_disable(2)
+        else:
+            self.cbtonCheckBox.setCheckState(0)
+            self.cbton_enable_disable(0)
+
+        # CBTBB
+        self.cbtbbComboBox.setCurrentIndex(ss_vm_clone.cbtbbComboBox.currentIndex())
+
+        # CBTTBP
+        self.cbttbpDoubleSpinBox.setValue(ss_vm_clone.cbttbpDoubleSpinBox.value())
+
+        # Range Tracking
+        self.rangeTrackingComboBox.setCurrentIndex(ss_vm_clone.rangeTrackingComboBox.currentIndex())
+        self.cwprt_enable_disable(ss_vm_clone.rangeTrackingComboBox.currentIndex())
+
+        # Range Tracking Fraction
+        self.cwprtRangeFractionSpinBox.setValue(ss_vm_clone.cwprtRangeFractionSpinBox.value())
+
+        # Range Tracking Min Bin
+        self.cwprtMinBinSpinBox.setValue(ss_vm_clone.cwprtMinBinSpinBox.value())
+
+        # Range Tracking Max Bin
+        self.cwprtMaxBinSpinBox.setValue(ss_vm_clone.cwprtMaxBinSpinBox.value())
+
+        # CBI
+        if ss_vm_clone.cbiEnabledCheckBox.isChecked():
+            self.cbiEnabledCheckBox.setCheckState(2)
+            self.cbi_enable_disable(2)
+        else:
+            self.cbiEnabledCheckBox.setCheckState(0)
+            self.cbi_enable_disable(0)
+
+        # CBI Interval
+        self.cbiBurstIntervalDoubleSpinBox.setValue(ss_vm_clone.cbiBurstIntervalDoubleSpinBox.value())
+
+        # CBI Num Ens
+        self.cbiNumEnsSpinBox.setValue(ss_vm_clone.cbiNumEnsSpinBox.value())
+
+        # CBI Interleaved
+        self.cbiInterleaveSpinBox.setValue(ss_vm_clone.cbiInterleaveSpinBox.value())
+
+        # Num Beams
+        self.numBeamsSpinBox.setValue(ss_vm_clone.numBeamsSpinBox.value())
+
+        # Beam Diam
+        self.beamDiaComboBox.setCurrentIndex(ss_vm_clone.beamDiaComboBox.currentIndex())
+
+        # Beam Angle
+        self.beamAngleComboBox.setCurrentIndex(ss_vm_clone.beamAngleComboBox.currentIndex())
+
+        # CED Beam Vel
+        if ss_vm_clone.cedBeamVelCheckBox.isChecked():
+            self.cedBeamVelCheckBox.setCheckState(2)
+        else:
+            self.cedBeamVelCheckBox.setCheckState(0)
+
+        if ss_vm_clone.cedInstrVelCheckBox.isChecked():
+            self.cedInstrVelCheckBox.setCheckState(2)
+        else:
+            self.cedInstrVelCheckBox.setCheckState(0)
+
+        if ss_vm_clone.cedEarthVelCheckBox.isChecked():
+            self.cedEarthVelCheckBox.setCheckState(2)
+        else:
+            self.cedEarthVelCheckBox.setCheckState(0)
+
+        if ss_vm_clone.cedAmpCheckBox.isChecked():
+            self.cedAmpCheckBox.setCheckState(2)
+        else:
+            self.cedAmpCheckBox.setCheckState(0)
+
+        if ss_vm_clone.cedCorrCheckBox.isChecked():
+            self.cedCorrCheckBox.setCheckState(2)
+        else:
+            self.cedCorrCheckBox.setCheckState(0)
+
+        if ss_vm_clone.cedBeamGoodPingCheckBox.isChecked():
+            self.cedBeamGoodPingCheckBox.setCheckState(2)
+        else:
+            self.cedBeamGoodPingCheckBox.setCheckState(0)
+
+        if ss_vm_clone.cedEarthGoodPingCheckBox.isChecked():
+            self.cedEarthGoodPingCheckBox.setCheckState(2)
+        else:
+            self.cedEarthGoodPingCheckBox.setCheckState(0)
+
+        if ss_vm_clone.cedEnsCheckBox.isChecked():
+            self.cedEnsCheckBox.setCheckState(2)
+        else:
+            self.cedEnsCheckBox.setCheckState(0)
+
+        if ss_vm_clone.cedAncCheckBox.isChecked():
+            self.cedAncCheckBox.setCheckState(2)
+        else:
+            self.cedAncCheckBox.setCheckState(0)
+
+        if ss_vm_clone.cedBtCheckBox.isChecked():
+            self.cedBtCheckBox.setCheckState(2)
+        else:
+            self.cedBtCheckBox.setCheckState(0)
+
+        if ss_vm_clone.cedNmeaCheckBox.isChecked():
+            self.cedNmeaCheckBox.setCheckState(2)
+        else:
+            self.cedNmeaCheckBox.setCheckState(0)
+
+        if ss_vm_clone.cedWpEngCheckBox.isChecked():
+            self.cedWpEngCheckBox.setCheckState(2)
+        else:
+            self.cedWpEngCheckBox.setCheckState(0)
+
+        if ss_vm_clone.cedBtEngCheckBox.isChecked():
+            self.cedBtEngCheckBox.setCheckState(2)
+        else:
+            self.cedBtEngCheckBox.setCheckState(0)
+
+        if ss_vm_clone.cedSysSettingCheckBox.isChecked():
+            self.cedSysSettingCheckBox.setCheckState(2)
+        else:
+            self.cedSysSettingCheckBox.setCheckState(0)
+
+        if ss_vm_clone.cedRangeTrackingCheckBox.isChecked():
+            self.cedRangeTrackingCheckBox.setCheckState(2)
+        else:
+            self.cedRangeTrackingCheckBox.setCheckState(0)
+
+        # Disable certain data types if PD0
+        if self.predictor.dataFormatComboBox.currentText() == "RTB":
+            self.cedWpEngCheckBox.setDisabled(False)
+            self.cedBtEngCheckBox.setDisabled(False)
+            self.cedSysSettingCheckBox.setDisabled(False)
+            self.cedRangeTrackingCheckBox.setDisabled(False)
+        else:
+            self.cedWpEngCheckBox.setDisabled(True)
+            self.cedBtEngCheckBox.setDisabled(True)
+            self.cedSysSettingCheckBox.setDisabled(True)
+            self.cedRangeTrackingCheckBox.setDisabled(True)
+
+        # Check SS code to know how many beams
+        #if self.ss_code == 'A' or self.ss_code == 'B' or self.ss_code == 'C' or self.ss_code == 'D' or self.ss_code == 'E':
+        #    self.numBeamsSpinBox.setValue(1)
+        #    self.beamAngleComboBox.setCurrentIndex(1)       # 0 Degrees
+
+        # Check the beam diameter
+        #if self.ss_code == '2' or self.ss_code == '6' or self.ss_code == 'A':
+        #    self.beamDiaComboBox.setCurrentIndex(1)
+
+    def clone_me(self):
+        """
+        Call parent to clone this configuration.
+        :return:
+        """
+        # Call the parent to clone this configuration
+        self.predictor.clone_subsystem(self)
 
     def init_list(self):
+        """
+        Initialize all the lists in the VM.
+        :return:
+        """
         self.cwpbbComboBox.addItem("Broadband", 1)
         self.cwpbbComboBox.addItem("Narrowband", 0)
 
@@ -176,6 +396,8 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
 
         self.beamDiaComboBox.addItem("3 inch", 3)
         self.beamDiaComboBox.addItem("2 inch", 2)
+        self.beamDiaComboBox.addItem("1.35 inch", 1.35)
+        self.beamDiaComboBox.addItem("1.25 inch", 1.25)
 
         self.cwprtRangeFractionSpinBox.setEnabled(0)
         self.cwprtMinBinSpinBox.setEnabled(0)
@@ -217,7 +439,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         self.cwprtMaxBinSpinBox.setToolTip(Commands.get_tooltip(cmds["CWPRT"]["desc"]))
         self.cbiEnabledCheckBox.setToolTip(Commands.get_tooltip(cmds["CBI"]["desc"]))
         self.cbiBurstIntervalDoubleSpinBox.setToolTip(Commands.get_tooltip(cmds["CBI"]["desc"]))
-        self.cbiInterleaveCheckBox.setToolTip(Commands.get_tooltip(cmds["CBI"]["desc"]))
+        self.cbiInterleaveSpinBox.setToolTip(Commands.get_tooltip(cmds["CBI"]["desc"]))
         self.cbiNumEnsSpinBox.setToolTip(Commands.get_tooltip(cmds["CBI"]["desc"]))
         self.cedGroupBox.setToolTip(Commands.get_tooltip(cmds["CED"]["desc"]))
         self.beamDiaComboBox.setToolTip("Set the Beam diameter.\n2 inches are the smaller beams and 3 inches are the larger beams.")
@@ -227,6 +449,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         self.errorGroupBox.setToolTip("Any errors based off the configuration.")
         self.numBeamsGroupBox.setToolTip("Number of beams for the subsystem configuration.\nVertical beam configuration will be 1 beam.")
         self.recommendSettingGroupBox.setToolTip("Select a recommend settings for your deployment.\nThis will load a default setup to begin the configuration.")
+        self.cloneButton.setToolTip("Clone this configuration.  A copy of this configuration will be added with the same settings.")
 
     def stateChanged(self, state):
         """
@@ -249,7 +472,6 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
 
         # Recalculate
         self.predictor.calculate()
-
 
     def valueChanged(self, value):
         """
@@ -318,6 +540,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
 
         self.cbiBurstIntervalDoubleSpinBox.setEnabled(enable_state)
         self.cbiNumEnsSpinBox.setEnabled(enable_state)
+        self.cbiInterleaveSpinBox.setEnabled(enable_state)
 
         # Recalculate
         self.predictor.calculate()
@@ -642,10 +865,8 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         if self.cbiEnabledCheckBox.isChecked():
             cbi_num_ens = str(self.cbiNumEnsSpinBox.value())
             cbi_interval = Commands.sec_to_hmss(self.cbiBurstIntervalDoubleSpinBox.value())
-            if self.cbiInterleaveCheckBox.isChecked():
-                command_list.append(Commands.AdcpCmd("CBI", cbi_interval + ", " + cbi_num_ens + " ,1"))  # CBI
-            else:
-                command_list.append(Commands.AdcpCmd("CBI", cbi_interval + ", " + cbi_num_ens + " ,0"))  # CBI
+            cbi_interleave = str(self.cbiInterleaveSpinBox.value())
+            command_list.append(Commands.AdcpCmd("CBI", cbi_interval + ", " + cbi_num_ens + " , " + cbi_interleave))  # CBI
 
         # CED
         ced = ""
