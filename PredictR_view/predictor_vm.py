@@ -7,6 +7,7 @@ from . import subsystem_vm
 from rti_python.ADCP import AdcpCommands as Commands
 from rti_python.ADCP.Predictor import DataStorage as DS
 from rti_python.ADCP import Subsystem as SS
+from rti_python.ADCP.Predictor import Power as Power
 from . import predictor_view
 
 
@@ -29,7 +30,7 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
 
         # Connect the buttons
         self.addSubsystemButton.clicked.connect(self.add_subsystem)
-        self.addSubsystemButton.setStyleSheet("background: #6b6df2")
+        self.addSubsystemButton.setStyleSheet("background: #41658a")
         self.predictionGroupBox.setStyleSheet("QGroupBox { background: #639ecf }\n QGroupBox::title { background-color: transparent; }")
 
         self.powerLabel.setStyleSheet("color: black")
@@ -44,6 +45,14 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
         #self.calculateButton.clicked.connect(self.calculate)
         self.saveCommandsButton.clicked.connect(self.save_to_file)
 
+        # Init progressbars
+        #self.batteryProgressBar.setMinimum(0)
+        #self.batteryProgressBar.setMaximum(1)
+        #self.batteryProgressBar.setValue(1)
+        #self.dataUsageProgressBar.setMinimum(0)
+        #self.dataUsageProgressBar.setMaximum(1)
+        #self.batteryProgressBar.setValue(1)
+
         # Create the list of subsystems
         self.init_list()
 
@@ -57,6 +66,9 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
         self.cerecordCheckBox.stateChanged.connect(self.valueChanged)
         self.dataFormatComboBox.currentIndexChanged.connect(self.valueChanged)
         self.coordinateTransformComboBox.currentIndexChanged.connect(self.valueChanged)
+        self.batteryTypeComboBox.currentIndexChanged.connect(self.valueChanged)
+        self.numBatteriesSpinBox.valueChanged.connect(self.valueChanged)
+        self.storageSizeSpinBox.valueChanged.connect(self.valueChanged)
 
         # Initialize to RTB
         self.dataFormatComboBox.setCurrentText("RTB")
@@ -94,6 +106,9 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
         self.coordinateTransformComboBox.addItem("Earth", "Earth")
         self.coordinateTransformComboBox.addItem("Ship", "Ship")
 
+        self.batteryTypeComboBox.addItem("Alkaline [440 W-Hr]", 440)
+        self.batteryTypeComboBox.addItem("Lithium [2100 W-Hr]", 2100)
+
     def set_tooltips(self):
         """
         Set the tooltip for all the values.  The tooltip will be found
@@ -120,8 +135,11 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
         self.commandFileGroupBox.setToolTip("Command file generated from all the subsystem configurations.")
         self.subsystemConfigGroupBox.setToolTip("Select a subsystem to create a configuration.")
         self.saveCommandsButton.setToolTip("Save the commands to a text file.\nThe file will be saved to location of the application.\nThe file name will be the date and time.")
-        #self.dataFormatComboBox.setToolTip("Select the data format.  RTB = Rowe Tech Binary.  PD0 is an industry standard format used on TRDI systems.")
+        self.dataFormatComboBox.setToolTip("Select the data format.  RTB = Rowe Tech Binary.  PD0 is an industry standard format used on TRDI systems.")
         self.coordinateTransformComboBox.setToolTip("Select the coordinate Transform for PD0.  Beam = Raw Data, Instrument = X,Y,Z,Err, Earth=East,North,Vert,Err")
+        self.batteryTypeComboBox.setToolTip("Set the battery type to accurately calculate how many batteries will be used.  Default is an alkaline battery.")
+        self.numBatteriesSpinBox.setToolTip("Set the number of batteries that will be used in the deployment to accurately calculate how many days the ADCP will last.")
+        self.storageSizeSpinBox.setToolTip("Set size of the internal and external SD cards to accurately calculate the deployment length.  The default is 32GB.")
 
     def add_subsystem(self):
         """
@@ -255,11 +273,31 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
             self.calc_num_batt += self.tabSubsystem.widget(tab).calc_num_batt
             self.calc_power += self.tabSubsystem.widget(tab).calc_power
 
-
         # Update the display
         self.powerLabel.setText(str(round(self.calc_power, 2)) + " watt*hr")
         self.numBatteriesLabel.setText(str(round(self.calc_num_batt, 2)) + " batteries")
         self.dataUsageLabel.setText(str(DS.bytes_2_human_readable(self.calc_data)))
+
+        # Calculate the power usage for progessbar
+        battery_pwr = self.batteryTypeComboBox.itemData(self.batteryTypeComboBox.currentIndex())
+        battery_usage_percent = Power.calculate_battery_usage(self.calc_power,
+                                                              self.numBatteriesSpinBox.value(),
+                                                              battery_pwr)
+        if battery_usage_percent > 1:
+            self.batteryProgressBar.setValue(100)
+        else:
+            self.batteryProgressBar.setValue(battery_usage_percent * 100.0)
+
+        # Calculate the data usage for progressbar
+        # Convert GB to bytes
+        sd_card_mb = self.storageSizeSpinBox.value() * 1024.0
+        data_usage_to_mb = self.calc_data / 1048576.0
+        data_usage_percentage = (data_usage_to_mb / sd_card_mb) * 100.0
+
+        if data_usage_percentage > 100:
+            self.dataUsageProgressBar.setValue(100)
+        else:
+            self.dataUsageProgressBar.setValue(data_usage_percentage)
 
         # Salinity Label
         if self.cwsSpinBox.value() == 0:
@@ -275,6 +313,7 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
 
         # Update the command file
         self.update_command_file()
+
 
     def update_command_file(self):
         self.commandFileTextBrowser.clear()

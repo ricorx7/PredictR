@@ -49,7 +49,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         self.stdLabel.setStyleSheet("color: black; font-size: 12pt")
         self.predictionGroupBox.setStyleSheet("QGroupBox#predictionGroupBox { background: #639ecf }\n QGroupBox::title { background-color: transparent; }")
         self.statusGroupBox.setStyleSheet("QGroupBox { background: #3D9970 }\n QGroupBox::title { background-color: transparent; }")
-        self.errorGroupBox.setStyleSheet("QGroupBox { color: black; background: #cf6363 }\n QGroupBox::title { background-color: transparent; }")
+        self.errorGroupBox.setStyleSheet("QGroupBox { background: #cf6363 }\n QGroupBox::title { background-color: transparent; }")
 
         # Set the values based off the preset
         self.presetButton.clicked.connect(self.set_preset)
@@ -635,8 +635,11 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                                                           CBI_BurstInterval=self.cbiBurstIntervalDoubleSpinBox.value(),
                                                           CBI_NumEns=self.cbiNumEnsSpinBox.value(),
                                                           BeamDiameter=beamDia)
-
-        self.calc_num_batt = Power.calculate_number_batteries(DeploymentDuration=deployment, PowerUsage=self.calc_power)
+        # Get the battery type
+        battery_capacity = self.predictor.batteryTypeComboBox.itemData(self.predictor.batteryTypeComboBox.currentIndex())
+        self.calc_num_batt = Power.calculate_number_batteries(DeploymentDuration=deployment,
+                                                              PowerUsage=self.calc_power,
+                                                              BatteryCapacity=battery_capacity)
 
         (bt_range, wp_range, first_bin, cfg_range) = Range.calculate_predicted_range(SystemFrequency=self.freq,
                                                                                      Beams=self.numBeamsSpinBox.value(),
