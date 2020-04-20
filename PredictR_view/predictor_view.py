@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'predictor_view.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.0
+# Created by: PyQt5 UI code generator 5.14.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -27,7 +27,7 @@ class Ui_RoweTechPredictor(object):
         self.scrollArea.setWidgetResizable(True)
         self.scrollArea.setObjectName("scrollArea")
         self.scrollAreaWidgetContents = QtWidgets.QWidget()
-        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1566, 981))
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 1572, 987))
         self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
         self.horizontalLayout = QtWidgets.QHBoxLayout(self.scrollAreaWidgetContents)
         self.horizontalLayout.setObjectName("horizontalLayout")
@@ -231,6 +231,8 @@ class Ui_RoweTechPredictor(object):
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(12)
+        font.setBold(True)
+        font.setWeight(75)
         self.label_16.setFont(font)
         self.label_16.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_16.setObjectName("label_16")
@@ -247,6 +249,8 @@ class Ui_RoweTechPredictor(object):
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(12)
+        font.setBold(True)
+        font.setWeight(75)
         self.label_17.setFont(font)
         self.label_17.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_17.setObjectName("label_17")
@@ -277,6 +281,8 @@ class Ui_RoweTechPredictor(object):
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(12)
+        font.setBold(True)
+        font.setWeight(75)
         self.label_29.setFont(font)
         self.label_29.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_29.setObjectName("label_29")
@@ -307,6 +313,8 @@ class Ui_RoweTechPredictor(object):
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(12)
+        font.setBold(True)
+        font.setWeight(75)
         self.recordingLabel.setFont(font)
         self.recordingLabel.setText("")
         self.recordingLabel.setAlignment(QtCore.Qt.AlignCenter)
@@ -316,6 +324,8 @@ class Ui_RoweTechPredictor(object):
         font = QtGui.QFont()
         font.setFamily("Arial")
         font.setPointSize(12)
+        font.setBold(True)
+        font.setWeight(75)
         self.salinityLabel.setFont(font)
         self.salinityLabel.setText("")
         self.salinityLabel.setAlignment(QtCore.Qt.AlignCenter)
@@ -376,3 +386,13 @@ class Ui_RoweTechPredictor(object):
         self.label_29.setText(_translate("RoweTechPredictor", "Total Data Usage: "))
         self.tabSubsystem.setTabText(self.tabSubsystem.indexOf(self.tab_3), _translate("RoweTechPredictor", "Tab 1"))
         self.tabSubsystem.setTabText(self.tabSubsystem.indexOf(self.tab_4), _translate("RoweTechPredictor", "Tab 2"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    RoweTechPredictor = QtWidgets.QMainWindow()
+    ui = Ui_RoweTechPredictor()
+    ui.setupUi(RoweTechPredictor)
+    RoweTechPredictor.show()
+    sys.exit(app.exec_())

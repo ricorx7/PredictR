@@ -40,8 +40,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>1566</width>
-         <height>981</height>
+         <width>1572</width>
+         <height>987</height>
         </rect>
        </property>
        <layout class="QHBoxLayout" name="horizontalLayout">
@@ -429,6 +429,8 @@
                  <font>
                   <family>Arial</family>
                   <pointsize>12</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
                  </font>
                 </property>
                 <property name="text">
@@ -458,6 +460,8 @@
                  <font>
                   <family>Arial</family>
                   <pointsize>12</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
                  </font>
                 </property>
                 <property name="text">
@@ -510,6 +514,8 @@
                  <font>
                   <family>Arial</family>
                   <pointsize>12</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
                  </font>
                 </property>
                 <property name="text">
@@ -562,6 +568,8 @@
                  <font>
                   <family>Arial</family>
                   <pointsize>12</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
                  </font>
                 </property>
                 <property name="text">
@@ -578,6 +586,8 @@
                  <font>
                   <family>Arial</family>
                   <pointsize>12</pointsize>
+                  <weight>75</weight>
+                  <bold>true</bold>
                  </font>
                 </property>
                 <property name="text">

@@ -26,18 +26,18 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
         self.calc_data = 0.0
         self.calc_num_batt = 0.0
 
-        self.revLabel.setText("© RoweTech Inc. Rev 1.11")
+        self.revLabel.setText("© RoweTech Inc. Rev 1.12")
 
         # Connect the buttons
         self.addSubsystemButton.clicked.connect(self.add_subsystem)
-        self.addSubsystemButton.setStyleSheet("background: #41658a")
-        self.predictionGroupBox.setStyleSheet("QGroupBox { background: #639ecf }\n QGroupBox::title { background-color: transparent; }")
+        #self.addSubsystemButton.setStyleSheet("background: #41658a")
+        #self.predictionGroupBox.setStyleSheet("QGroupBox { background: #639ecf }\n QGroupBox::title { background-color: transparent; }")
 
-        self.powerLabel.setStyleSheet("color: black")
-        self.numBatteriesLabel.setStyleSheet("color: black")
-        self.dataUsageLabel.setStyleSheet("color: black")
-        self.salinityLabel.setStyleSheet("color: black")
-        self.recordingLabel.setStyleSheet("color: black")
+        #self.powerLabel.setStyleSheet("color: black")
+        #self.numBatteriesLabel.setStyleSheet("color: black")
+        #self.dataUsageLabel.setStyleSheet("color: black")
+        #self.salinityLabel.setStyleSheet("color: black")
+        #self.recordingLabel.setStyleSheet("color: black")
 
         self.tabSubsystem.setTabsClosable(True)
         self.tabSubsystem.clear()
@@ -157,6 +157,9 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
 
         # Add subsystem to CEPO
         self.cepo_list.append(ss)
+
+        # Update the Burst ID
+        self.updateBurstID()
 
         # Recalculate
         self.calculate()
@@ -314,8 +317,34 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
         # Update the command file
         self.update_command_file()
 
+    def updateStandardorBurstPinging(self, is_cbi_enabled: bool):
+        for tab in range(self.tabSubsystem.count()):
+            self.tabSubsystem.widget(tab).cbiEnabledCheckBox.setChecked(is_cbi_enabled)
+
+    def updateBurstID(self):
+        burst_id = 1
+        interleave_count = 0
+
+        # Update all the tabs
+        for tab in range(self.tabSubsystem.count()):
+
+            # Track the interleave count
+            if self.tabSubsystem.widget(tab).cbiInterleaveSpinBox.value() > 0:
+                interleave_count = self.tabSubsystem.widget(tab).cbiInterleaveSpinBox.value()
+
+            # Set the Burst ID
+            self.tabSubsystem.widget(tab).cbiBurstIdSpinBox.setValue(burst_id)
+
+            if interleave_count <= 0:
+                burst_id += 1
+            else:
+                interleave_count -= 1
+
 
     def update_command_file(self):
+        """
+        Update the command file.
+        """
         self.commandFileTextBrowser.clear()
 
         self.commandFileTextBrowser.append("CDEFAULT")

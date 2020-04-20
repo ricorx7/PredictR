@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'subsystem_view.ui'
 #
-# Created by: PyQt5 UI code generator 5.13.0
+# Created by: PyQt5 UI code generator 5.14.1
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -183,6 +183,13 @@ class Ui_Subsystem(object):
         self.cbiInterleaveSpinBox = QtWidgets.QSpinBox(self.groupBox_3)
         self.cbiInterleaveSpinBox.setObjectName("cbiInterleaveSpinBox")
         self.formLayout_6.setWidget(4, QtWidgets.QFormLayout.FieldRole, self.cbiInterleaveSpinBox)
+        self.label_31 = QtWidgets.QLabel(self.groupBox_3)
+        self.label_31.setObjectName("label_31")
+        self.formLayout_6.setWidget(5, QtWidgets.QFormLayout.LabelRole, self.label_31)
+        self.cbiBurstIdSpinBox = QtWidgets.QSpinBox(self.groupBox_3)
+        self.cbiBurstIdSpinBox.setMaximum(255)
+        self.cbiBurstIdSpinBox.setObjectName("cbiBurstIdSpinBox")
+        self.formLayout_6.setWidget(5, QtWidgets.QFormLayout.FieldRole, self.cbiBurstIdSpinBox)
         self.verticalLayout_7.addWidget(self.groupBox_3)
         self.horizontalLayout_2.addLayout(self.verticalLayout_7)
         self.verticalLayout_6 = QtWidgets.QVBoxLayout()
@@ -294,6 +301,8 @@ class Ui_Subsystem(object):
         self.label_17 = QtWidgets.QLabel(self.powerDataGroupBox)
         font = QtGui.QFont()
         font.setPointSize(8)
+        font.setBold(True)
+        font.setWeight(75)
         self.label_17.setFont(font)
         self.label_17.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_17.setObjectName("label_17")
@@ -301,6 +310,8 @@ class Ui_Subsystem(object):
         self.label_29 = QtWidgets.QLabel(self.powerDataGroupBox)
         font = QtGui.QFont()
         font.setPointSize(8)
+        font.setBold(True)
+        font.setWeight(75)
         self.label_29.setFont(font)
         self.label_29.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_29.setObjectName("label_29")
@@ -317,6 +328,8 @@ class Ui_Subsystem(object):
         self.label_16.setSizePolicy(sizePolicy)
         font = QtGui.QFont()
         font.setPointSize(8)
+        font.setBold(True)
+        font.setWeight(75)
         self.label_16.setFont(font)
         self.label_16.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_16.setObjectName("label_16")
@@ -349,6 +362,8 @@ class Ui_Subsystem(object):
         self.label_23 = QtWidgets.QLabel(self.rangeGroupBox)
         font = QtGui.QFont()
         font.setPointSize(8)
+        font.setBold(True)
+        font.setWeight(75)
         self.label_23.setFont(font)
         self.label_23.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_23.setObjectName("label_23")
@@ -356,6 +371,8 @@ class Ui_Subsystem(object):
         self.label_25 = QtWidgets.QLabel(self.rangeGroupBox)
         font = QtGui.QFont()
         font.setPointSize(8)
+        font.setBold(True)
+        font.setWeight(75)
         self.label_25.setFont(font)
         self.label_25.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_25.setObjectName("label_25")
@@ -363,6 +380,8 @@ class Ui_Subsystem(object):
         self.label_27 = QtWidgets.QLabel(self.rangeGroupBox)
         font = QtGui.QFont()
         font.setPointSize(8)
+        font.setBold(True)
+        font.setWeight(75)
         self.label_27.setFont(font)
         self.label_27.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_27.setObjectName("label_27")
@@ -375,6 +394,8 @@ class Ui_Subsystem(object):
         self.label_19 = QtWidgets.QLabel(self.velAccGroupBox)
         font = QtGui.QFont()
         font.setPointSize(8)
+        font.setBold(True)
+        font.setWeight(75)
         self.label_19.setFont(font)
         self.label_19.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_19.setObjectName("label_19")
@@ -386,6 +407,8 @@ class Ui_Subsystem(object):
         self.label_21 = QtWidgets.QLabel(self.velAccGroupBox)
         font = QtGui.QFont()
         font.setPointSize(8)
+        font.setBold(True)
+        font.setWeight(75)
         self.label_21.setFont(font)
         self.label_21.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.label_21.setObjectName("label_21")
@@ -445,6 +468,7 @@ class Ui_Subsystem(object):
         self.label_14.setText(_translate("Subsystem", "Number of Ensembles"))
         self.label_18.setText(_translate("Subsystem", "Interleave"))
         self.label_12.setText(_translate("Subsystem", "Burst Mode ON"))
+        self.label_31.setText(_translate("Subsystem", "Burst ID"))
         self.recommendSettingGroupBox.setTitle(_translate("Subsystem", "Recommend Setting"))
         self.presetButton.setText(_translate("Subsystem", "LOAD"))
         self.cloneButton.setText(_translate("Subsystem", "Clone"))
@@ -482,3 +506,13 @@ class Ui_Subsystem(object):
         self.label_21.setText(_translate("Subsystem", "Standard Deviation: "))
         self.statusGroupBox.setTitle(_translate("Subsystem", "Status"))
         self.errorGroupBox.setTitle(_translate("Subsystem", "Errors"))
+
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    Subsystem = QtWidgets.QWidget()
+    ui = Ui_Subsystem()
+    ui.setupUi(Subsystem)
+    Subsystem.show()
+    sys.exit(app.exec_())

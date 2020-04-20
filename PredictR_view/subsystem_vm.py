@@ -37,19 +37,19 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
 
         # Set the style
         #self.freqLabel.setStyleSheet("font-weight: bold; color: red; font-size: 16px")
-        self.pingingTextBrowser.setStyleSheet("font-size: 10pt; color: white; background-color: transparent")
-        self.errorTextBrowser.setStyleSheet("font-size: 10pt; color: white; background-color: transparent")
-        self.powerLabel.setStyleSheet("color: black; font-size: 12pt")
-        self.numBatteriesLabel.setStyleSheet("color: black; font-size: 12pt")
-        self.wpRangeLabel.setStyleSheet("color: black; font-size: 12pt")
-        self.btRangeLabel.setStyleSheet("color: black; font-size: 12pt")
-        self.firstBinPosLabel.setStyleSheet("color: black; font-size: 12pt")
-        self.maxVelLabel.setStyleSheet("color: black; font-size: 12pt")
-        self.dataUsageLabel.setStyleSheet("color: black; font-size: 12pt")
-        self.stdLabel.setStyleSheet("color: black; font-size: 12pt")
-        self.predictionGroupBox.setStyleSheet("QGroupBox#predictionGroupBox { background: #639ecf }\n QGroupBox::title { background-color: transparent; }")
-        self.statusGroupBox.setStyleSheet("QGroupBox { background: #3D9970 }\n QGroupBox::title { background-color: transparent; }")
-        self.errorGroupBox.setStyleSheet("QGroupBox { background: #cf6363 }\n QGroupBox::title { background-color: transparent; }")
+        #self.pingingTextBrowser.setStyleSheet("font-size: 10pt; color: white; background-color: transparent")
+        #self.errorTextBrowser.setStyleSheet("font-size: 10pt; color: white; background-color: transparent")
+        #self.powerLabel.setStyleSheet("color: black; font-size: 12pt")
+        #self.numBatteriesLabel.setStyleSheet("color: black; font-size: 12pt")
+        #self.wpRangeLabel.setStyleSheet("color: black; font-size: 12pt")
+        #self.btRangeLabel.setStyleSheet("color: black; font-size: 12pt")
+        #self.firstBinPosLabel.setStyleSheet("color: black; font-size: 12pt")
+        #self.maxVelLabel.setStyleSheet("color: black; font-size: 12pt")
+        #self.dataUsageLabel.setStyleSheet("color: black; font-size: 12pt")
+        #self.stdLabel.setStyleSheet("color: black; font-size: 12pt")
+        #self.predictionGroupBox.setStyleSheet("QGroupBox#predictionGroupBox { background: #639ecf }\n QGroupBox::title { background-color: transparent; }")
+        #self.statusGroupBox.setStyleSheet("QGroupBox { background: #3D9970 }\n QGroupBox::title { background-color: transparent; }")
+        #self.errorGroupBox.setStyleSheet("QGroupBox { background: #cf6363 }\n QGroupBox::title { background-color: transparent; }")
 
         # Set the values based off the preset
         self.presetButton.clicked.connect(self.set_preset)
@@ -252,6 +252,9 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         # CBI Interleaved
         self.cbiInterleaveSpinBox.setValue(ss_vm_clone.cbiInterleaveSpinBox.value())
 
+        # CBI Burst ID
+        self.cbiBurstIdSpinBox.setValue(ss_vm_clone.cbiBurstIdSpinBox.value())
+
         # Num Beams
         self.numBeamsSpinBox.setValue(ss_vm_clone.numBeamsSpinBox.value())
 
@@ -441,6 +444,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         self.cbiBurstIntervalDoubleSpinBox.setToolTip(Commands.get_tooltip(cmds["CBI"]["desc"]))
         self.cbiInterleaveSpinBox.setToolTip(Commands.get_tooltip(cmds["CBI"]["desc"]))
         self.cbiNumEnsSpinBox.setToolTip(Commands.get_tooltip(cmds["CBI"]["desc"]))
+        self.cbiBurstIdSpinBox.setToolTip(Commands.get_tooltip(cmds["CBI"]["desc"]))
         self.cedGroupBox.setToolTip(Commands.get_tooltip(cmds["CED"]["desc"]))
         self.beamDiaComboBox.setToolTip("Set the Beam diameter.\n2 inches are the smaller beams and 3 inches are the larger beams.")
         self.beamAngleComboBox.setToolTip("Set the Beam angle.  Standard beam angle is 20 degrees.  A vertical beam is 0 degrees.")
@@ -470,6 +474,9 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
             self.cedRangeTrackingCheckBox.setDisabled(False)
         """
 
+        # Update the Burst ID
+        self.predictor.updateBurstID()
+
         # Recalculate
         self.predictor.calculate()
 
@@ -479,6 +486,10 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         :param state:
         :return:
         """
+
+        # Update the Burst ID
+        self.predictor.updateBurstID()
+
         # Recalculate
         self.predictor.calculate()
 
@@ -541,6 +552,10 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         self.cbiBurstIntervalDoubleSpinBox.setEnabled(enable_state)
         self.cbiNumEnsSpinBox.setEnabled(enable_state)
         self.cbiInterleaveSpinBox.setEnabled(enable_state)
+        self.cbiBurstIdSpinBox.setEnabled(enable_state)
+
+        # Update Burst Mode vs Standard Ping Mode
+        self.predictor.updateStandardorBurstPinging(enable_state)
 
         # Recalculate
         self.predictor.calculate()
@@ -869,7 +884,8 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
             cbi_num_ens = str(self.cbiNumEnsSpinBox.value())
             cbi_interval = Commands.sec_to_hmss(self.cbiBurstIntervalDoubleSpinBox.value())
             cbi_interleave = str(self.cbiInterleaveSpinBox.value())
-            command_list.append(Commands.AdcpCmd("CBI", cbi_interval + ", " + cbi_num_ens + " , " + cbi_interleave))  # CBI
+            cbi_burst_id = str(self.cbiBurstIdSpinBox.value())
+            command_list.append(Commands.AdcpCmd("CBI", cbi_interval + ", " + cbi_num_ens + " , " + cbi_interleave + ", " + cbi_burst_id))  # CBI
 
         # CED
         ced = ""

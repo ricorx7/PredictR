@@ -339,6 +339,20 @@
           <item row="4" column="1">
            <widget class="QSpinBox" name="cbiInterleaveSpinBox"/>
           </item>
+          <item row="5" column="0">
+           <widget class="QLabel" name="label_31">
+            <property name="text">
+             <string>Burst ID</string>
+            </property>
+           </widget>
+          </item>
+          <item row="5" column="1">
+           <widget class="QSpinBox" name="cbiBurstIdSpinBox">
+            <property name="maximum">
+             <number>255</number>
+            </property>
+           </widget>
+          </item>
          </layout>
         </widget>
        </item>
@@ -563,6 +577,8 @@
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
             </font>
            </property>
            <property name="text">
@@ -578,6 +594,8 @@
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
             </font>
            </property>
            <property name="text">
@@ -606,6 +624,8 @@
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
             </font>
            </property>
            <property name="text">
@@ -665,6 +685,8 @@
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
             </font>
            </property>
            <property name="text">
@@ -680,6 +702,8 @@
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
             </font>
            </property>
            <property name="text">
@@ -695,6 +719,8 @@
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
             </font>
            </property>
            <property name="text">
@@ -719,6 +745,8 @@
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
             </font>
            </property>
            <property name="text">
@@ -741,6 +769,8 @@
            <property name="font">
             <font>
              <pointsize>8</pointsize>
+             <weight>75</weight>
+             <bold>true</bold>
             </font>
            </property>
            <property name="text">
