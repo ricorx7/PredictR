@@ -1,6 +1,8 @@
 import datetime
 import os
 
+from PyQt5 import QtWidgets
+import qdarkstyle
 from . import AdcpJson as JSON
 from . import subsystem_view
 from . import subsystem_vm
@@ -28,6 +30,10 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
 
         self.revLabel.setText("© RoweTech Inc. Rev 1.12")
 
+        # Command file
+        self.cepo_list = []
+        self.command_file = []
+
         # Connect the buttons
         self.addSubsystemButton.clicked.connect(self.add_subsystem)
         #self.addSubsystemButton.setStyleSheet("background: #41658a")
@@ -44,6 +50,7 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
         self.tabSubsystem.tabCloseRequested.connect(self.tab_close_requested)
         #self.calculateButton.clicked.connect(self.calculate)
         self.saveCommandsButton.clicked.connect(self.save_to_file)
+        self.darkCheckBox.clicked.connect(self.change_theme)
 
         # Init progressbars
         #self.batteryProgressBar.setMinimum(0)
@@ -73,13 +80,11 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
         # Initialize to RTB
         self.dataFormatComboBox.setCurrentText("RTB")
         self.coordinateTransformComboBox.setDisabled(True)
+        self.cerecordCheckBox.setChecked(True)
 
         # Set status bar
         self.parent.statusBar().showMessage('Add a subsystem to begin configuring...')
 
-        # Command file
-        self.cepo_list = []
-        self.command_file = []
 
         # Run initial Calculate
         self.calculate()
@@ -303,16 +308,20 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
             self.dataUsageProgressBar.setValue(data_usage_percentage)
 
         # Salinity Label
-        if self.cwsSpinBox.value() == 0:
+        if self.cwsSpinBox.value() <= 5.0:
             self.salinityLabel.setText("Fresh Water")
+            self.salinityLabel.setStyleSheet("color: blue;")
         else:
             self.salinityLabel.setText("Salt Water")
+            self.salinityLabel.setStyleSheet("")
 
         # Recording Label
         if self.cerecordCheckBox.isChecked():
             self.recordingLabel.setText("Recording ON")
+            self.recordingLabel.setStyleSheet("")
         else:
             self.recordingLabel.setText("Recording OFF")
+            self.recordingLabel.setStyleSheet("color: red;")
 
         # Update the command file
         self.update_command_file()
@@ -339,7 +348,6 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
                 burst_id += 1
             else:
                 interleave_count -= 1
-
 
     def update_command_file(self):
         """
@@ -385,7 +393,11 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
         self.commandFileTextBrowser.append("START")
 
     def save_to_file(self):
-
+        """
+        Save the configuration to a file.  Display on the statusbar
+        the location and file name.
+        :return:
+        """
         # Create a new file name based off date and time
         file_name = datetime.datetime.now().strftime("%Y%m%d%H%M%S_RTI_CFG.txt")
         file_path = os.path.expanduser("~/Desktop/"+file_name)
@@ -395,4 +407,19 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
         file.close()
 
         self.parent.statusBar().showMessage('File saved to ' + file_path)
+
+    def change_theme(self):
+        """
+        Change the theme color.
+        :return:
+        """
+        # get the QApplication instance,  or crash if not set
+        app = QtWidgets.QApplication.instance()
+        if app is None:
+            raise RuntimeError("No Qt Application found.")
+
+        if self.darkCheckBox.isChecked():
+            app.setStyleSheet(qdarkstyle.load_stylesheet_pyqt5())
+        else:
+            app.setStyleSheet("")
 

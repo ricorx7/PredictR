@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'predictor_view.ui'
+# Form implementation generated from reading ui file 'PredictR_view\predictor_view.ui'
 #
-# Created by: PyQt5 UI code generator 5.14.1
+# Created by: PyQt5 UI code generator 5.14.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -53,6 +53,7 @@ class Ui_RoweTechPredictor(object):
         self.formLayout_3 = QtWidgets.QFormLayout(self.systemSettingsGroupBox)
         self.formLayout_3.setObjectName("formLayout_3")
         self.label_2 = QtWidgets.QLabel(self.systemSettingsGroupBox)
+        self.label_2.setWordWrap(False)
         self.label_2.setObjectName("label_2")
         self.formLayout_3.setWidget(0, QtWidgets.QFormLayout.LabelRole, self.label_2)
         self.ceiDoubleSpinBox = QtWidgets.QDoubleSpinBox(self.systemSettingsGroupBox)
@@ -198,6 +199,8 @@ class Ui_RoweTechPredictor(object):
         self.saveCommandsButton.setObjectName("saveCommandsButton")
         self.verticalLayout_4.addWidget(self.saveCommandsButton)
         self.verticalLayout_3.addWidget(self.commandFileGroupBox)
+        self.horizontalLayout_3 = QtWidgets.QHBoxLayout()
+        self.horizontalLayout_3.setObjectName("horizontalLayout_3")
         self.revLabel = QtWidgets.QLabel(self.widget)
         sizePolicy = QtWidgets.QSizePolicy(QtWidgets.QSizePolicy.Preferred, QtWidgets.QSizePolicy.Minimum)
         sizePolicy.setHorizontalStretch(0)
@@ -206,7 +209,11 @@ class Ui_RoweTechPredictor(object):
         self.revLabel.setSizePolicy(sizePolicy)
         self.revLabel.setMaximumSize(QtCore.QSize(16777215, 30))
         self.revLabel.setObjectName("revLabel")
-        self.verticalLayout_3.addWidget(self.revLabel)
+        self.horizontalLayout_3.addWidget(self.revLabel)
+        self.darkCheckBox = QtWidgets.QCheckBox(self.widget)
+        self.darkCheckBox.setObjectName("darkCheckBox")
+        self.horizontalLayout_3.addWidget(self.darkCheckBox)
+        self.verticalLayout_3.addLayout(self.horizontalLayout_3)
         self.horizontalLayout.addWidget(self.widget)
         self.widget_2 = QtWidgets.QWidget(self.scrollAreaWidgetContents)
         self.widget_2.setObjectName("widget_2")
@@ -361,10 +368,10 @@ class Ui_RoweTechPredictor(object):
         _translate = QtCore.QCoreApplication.translate
         RoweTechPredictor.setWindowTitle(_translate("RoweTechPredictor", "MainWindow"))
         self.systemSettingsGroupBox.setTitle(_translate("RoweTechPredictor", "System Settings"))
-        self.label_2.setText(_translate("RoweTechPredictor", "CEI (s)"))
-        self.label_3.setText(_translate("RoweTechPredictor", "CWS (ppt)"))
-        self.label_5.setText(_translate("RoweTechPredictor", "CWT (C)"))
-        self.label_6.setText(_translate("RoweTechPredictor", "CTD (m)"))
+        self.label_2.setText(_translate("RoweTechPredictor", "Ensemble Interval (s)"))
+        self.label_3.setText(_translate("RoweTechPredictor", "Salinity (ppt)"))
+        self.label_5.setText(_translate("RoweTechPredictor", "Backup Temperature (C)"))
+        self.label_6.setText(_translate("RoweTechPredictor", "ADCP Depth (m)"))
         self.label_7.setText(_translate("RoweTechPredictor", "Speed of Sound (m/s)"))
         self.dataGroupBox.setTitle(_translate("RoweTechPredictor", "Data"))
         self.label_8.setText(_translate("RoweTechPredictor", "Data Format"))
@@ -380,6 +387,7 @@ class Ui_RoweTechPredictor(object):
         self.commandFileGroupBox.setTitle(_translate("RoweTechPredictor", "Command File"))
         self.saveCommandsButton.setText(_translate("RoweTechPredictor", "Save to File"))
         self.revLabel.setText(_translate("RoweTechPredictor", "TextLabel"))
+        self.darkCheckBox.setText(_translate("RoweTechPredictor", "Dark Mode"))
         self.predictionGroupBox.setTitle(_translate("RoweTechPredictor", "Total Prediction"))
         self.label_16.setText(_translate("RoweTechPredictor", "Total Power Usage: "))
         self.label_17.setText(_translate("RoweTechPredictor", "Total Num Batteries: "))

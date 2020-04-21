@@ -87,7 +87,10 @@
               <item row="0" column="0">
                <widget class="QLabel" name="label_2">
                 <property name="text">
-                 <string>CEI (s)</string>
+                 <string>Ensemble Interval (s)</string>
+                </property>
+                <property name="wordWrap">
+                 <bool>false</bool>
                 </property>
                </widget>
               </item>
@@ -104,7 +107,7 @@
               <item row="1" column="0">
                <widget class="QLabel" name="label_3">
                 <property name="text">
-                 <string>CWS (ppt)</string>
+                 <string>Salinity (ppt)</string>
                 </property>
                </widget>
               </item>
@@ -118,7 +121,7 @@
               <item row="2" column="0">
                <widget class="QLabel" name="label_5">
                 <property name="text">
-                 <string>CWT (C)</string>
+                 <string>Backup Temperature (C)</string>
                 </property>
                </widget>
               </item>
@@ -138,7 +141,7 @@
               <item row="3" column="0">
                <widget class="QLabel" name="label_6">
                 <property name="text">
-                 <string>CTD (m)</string>
+                 <string>ADCP Depth (m)</string>
                 </property>
                </widget>
               </item>
@@ -372,26 +375,37 @@
             </widget>
            </item>
            <item>
-            <widget class="QLabel" name="revLabel">
-             <property name="sizePolicy">
-              <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
-               <horstretch>0</horstretch>
-               <verstretch>0</verstretch>
-              </sizepolicy>
-             </property>
-             <property name="maximumSize">
-              <size>
-               <width>16777215</width>
-               <height>30</height>
-              </size>
-             </property>
-             <property name="text">
-              <string>TextLabel</string>
-             </property>
-             <property name="margin">
-              <number>5</number>
-             </property>
-            </widget>
+            <layout class="QHBoxLayout" name="horizontalLayout_3">
+             <item>
+              <widget class="QLabel" name="revLabel">
+               <property name="sizePolicy">
+                <sizepolicy hsizetype="Preferred" vsizetype="Minimum">
+                 <horstretch>0</horstretch>
+                 <verstretch>0</verstretch>
+                </sizepolicy>
+               </property>
+               <property name="maximumSize">
+                <size>
+                 <width>16777215</width>
+                 <height>30</height>
+                </size>
+               </property>
+               <property name="text">
+                <string>TextLabel</string>
+               </property>
+               <property name="margin">
+                <number>5</number>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QCheckBox" name="darkCheckBox">
+               <property name="text">
+                <string>Dark Mode</string>
+               </property>
+              </widget>
+             </item>
+            </layout>
            </item>
           </layout>
          </widget>

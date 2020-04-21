@@ -1,5 +1,12 @@
 ChangeLog PredictR
 
+PredictR-1.12
+ - Add the option for dark mode
+ - Fixed the layout
+ - Reworded the options
+ - Added Lithium option
+ - Updated the CBI command options like Busrt ID.
+
 PredictR-1.11
  - If CBI disabled, do not display the command in the list
  - Made the Total Prediction more obvious at the top.

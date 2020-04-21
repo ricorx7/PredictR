@@ -1,6 +1,9 @@
 # RTI Prediction Model in Python
 Rowe Technologies Inc. Python library
 
+# Installation of Source Code
+The software is assumed to be in the path Documents\rti\python.  You will need to modify the .spec files with the correct paths to create an installer.
+
 # Create PredictR application
 OSX
 ```javascript

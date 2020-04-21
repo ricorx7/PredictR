@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'subsystem_view.ui'
+# Form implementation generated from reading ui file 'PredictR_view\subsystem_view.ui'
 #
-# Created by: PyQt5 UI code generator 5.14.1
+# Created by: PyQt5 UI code generator 5.14.2
 #
 # WARNING! All changes made in this file will be lost!
 
@@ -446,18 +446,18 @@ class Ui_Subsystem(object):
         _translate = QtCore.QCoreApplication.translate
         Subsystem.setWindowTitle(_translate("Subsystem", "MainWindow"))
         self.groupBox.setTitle(_translate("Subsystem", "Water Profile"))
-        self.label.setText(_translate("Subsystem", "CWPON"))
-        self.label_2.setText(_translate("Subsystem", "CWPBL (m)"))
-        self.label_3.setText(_translate("Subsystem", "CWPBS (m)"))
-        self.label_4.setText(_translate("Subsystem", "CWPBN (bins)"))
-        self.label_5.setText(_translate("Subsystem", "CWPBB Lag Length (m)"))
+        self.label.setText(_translate("Subsystem", "ON or OFF"))
+        self.label_2.setText(_translate("Subsystem", "First Bin Depth [Blank] (m)"))
+        self.label_3.setText(_translate("Subsystem", "Bin Size (m)"))
+        self.label_4.setText(_translate("Subsystem", "Number of Bins (bins)"))
+        self.label_5.setText(_translate("Subsystem", "Lag Length (m)"))
         self.label_6.setText(_translate("Subsystem", "Pulse Type"))
-        self.label_7.setText(_translate("Subsystem", "CWPP (pings)"))
-        self.label_8.setText(_translate("Subsystem", "CWPTBP (s)"))
+        self.label_7.setText(_translate("Subsystem", "Pings to Average (pings)"))
+        self.label_8.setText(_translate("Subsystem", "Time Between Average Pings (s)"))
         self.groupBox_2.setTitle(_translate("Subsystem", "Bottom Track"))
-        self.label_9.setText(_translate("Subsystem", "CBTON"))
-        self.label_10.setText(_translate("Subsystem", "CBTBB"))
-        self.label_11.setText(_translate("Subsystem", "CBTTBP (s)"))
+        self.label_9.setText(_translate("Subsystem", "ON or OFF"))
+        self.label_10.setText(_translate("Subsystem", "Pulse Type"))
+        self.label_11.setText(_translate("Subsystem", "Time After BT (s)"))
         self.groupBox_11.setTitle(_translate("Subsystem", "Range Tracking"))
         self.label_22.setText(_translate("Subsystem", "Range Fraction"))
         self.label_24.setText(_translate("Subsystem", "Minimum Bin"))
@@ -467,7 +467,7 @@ class Ui_Subsystem(object):
         self.label_13.setText(_translate("Subsystem", "Burst Interval (s)"))
         self.label_14.setText(_translate("Subsystem", "Number of Ensembles"))
         self.label_18.setText(_translate("Subsystem", "Interleave"))
-        self.label_12.setText(_translate("Subsystem", "Burst Mode ON"))
+        self.label_12.setText(_translate("Subsystem", "Burst Mode ON or OFF"))
         self.label_31.setText(_translate("Subsystem", "Burst ID"))
         self.recommendSettingGroupBox.setTitle(_translate("Subsystem", "Recommend Setting"))
         self.presetButton.setText(_translate("Subsystem", "LOAD"))
