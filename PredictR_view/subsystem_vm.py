@@ -60,6 +60,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         # Calculated results
         self.calc_power = 0.0
         self.calc_data = 0.0
+        self.calc_ens_size = 0.0
         self.calc_num_batt = 0.0
         self.calc_max_vel = 0.0
         self.calc_std = 0.0
@@ -731,6 +732,26 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                                                          IsE0000014=self.cedSysSettingCheckBox.isChecked(),
                                                          IsE0000015=self.cedRangeTrackingCheckBox.isChecked(),)
 
+        self.calc_ens_size = DS.calculate_ensemble_size(CEOUTPUT=self.predictor.dataFormatComboBox.currentText(),
+                                                         CWPBN=self.cwpbnSpinBox.value(),
+                                                         Beams=self.numBeamsSpinBox.value(),
+                                                         IsE0000001=self.cedBeamVelCheckBox.isChecked(),
+                                                         IsE0000002=self.cedInstrVelCheckBox.isChecked(),
+                                                         IsE0000003=self.cedEarthVelCheckBox.isChecked(),
+                                                         IsE0000004=self.cedAmpCheckBox.isChecked(),
+                                                         IsE0000005=self.cedCorrCheckBox.isChecked(),
+                                                         IsE0000006=self.cedBeamGoodPingCheckBox.isChecked(),
+                                                         IsE0000007=self.cedEarthGoodPingCheckBox.isChecked(),
+                                                         IsE0000008=self.cedEnsCheckBox.isChecked(),
+                                                         IsE0000009=self.cedAncCheckBox.isChecked(),
+                                                         IsE0000010=self.cedBtCheckBox.isChecked(),
+                                                         IsE0000011=self.cedNmeaCheckBox.isChecked(),
+                                                         IsE0000012=self.cedWpEngCheckBox.isChecked(),
+                                                         IsE0000013=self.cedBtEngCheckBox.isChecked(),
+                                                         IsE0000014=self.cedSysSettingCheckBox.isChecked(),
+                                                         IsE0000015=self.cedRangeTrackingCheckBox.isChecked(),)
+
+
         self.calc_std = STD.calculate_std(SystemFrequency=self.freq,
                                           Beams=self.numBeamsSpinBox.value(),
                                           BeamAngle=self.beamAngleComboBox.itemData(self.beamAngleComboBox.currentIndex()),
@@ -815,6 +836,9 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
                 cfg_status_str += "-Data in PD0 Earth format.\n"
             elif self.predictor.coordinateTransformComboBox.currentText() == "Ship":
                 cfg_status_str += "-Data in PD0 Ship format.\n"
+
+        # Ensemble size
+        cfg_status_str += '-Ensemble Size: ' + str(DS.bytes_2_human_readable(self.calc_ens_size)) + "\n"
 
         if self.predictor.cwsSpinBox.value() == 0:
             cfg_status_str += "-Salinity set for FRESH water.\n"

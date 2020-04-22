@@ -400,7 +400,7 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
         """
         # Create a new file name based off date and time
         file_name = datetime.datetime.now().strftime("%Y%m%d%H%M%S_RTI_CFG.txt")
-        file_path = os.path.expanduser("~/Desktop/"+file_name)
+        file_path = os.path.expanduser("~\\Desktop\\"+file_name)
 
         file = open(file_path, 'w')
         file.write(self.commandFileTextBrowser.toPlainText())
