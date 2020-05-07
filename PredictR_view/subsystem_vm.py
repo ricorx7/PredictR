@@ -377,6 +377,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         """
         self.cwpbbComboBox.addItem("Broadband", 1)
         self.cwpbbComboBox.addItem("Narrowband", 0)
+        self.cwpbbComboBox.addItem("Pulse-Coherent", 4)
 
         self.cbtbbComboBox.addItem("Broadband", 1)
         self.cbtbbComboBox.addItem("Narrowband", 0)
