@@ -4,7 +4,7 @@ block_cipher = None
 
 
 a = Analysis(['mainwindow.py'],
-             pathex=['C:\\Users\\rico\\Documents\\rti\\python\\PredictR\\venv\\Lib\\site-packages\\PyQt5\\Qt\\bin', 'C:\\Users\\rico\\Documents\\rti\\python\\PredictR', 'C:\\Users\\rico\\Documents\\rti\\python\\PredictR\PredictR_view' ,'C:\\Users\\rico\\Documents\\rti\\python\\PredictR\\rti_python'],
+             pathex=['C:\\Users\\rico\\Documents\\rti_code\\python\\PredictR\\venv\\Lib\\site-packages\\PyQt5\\Qt\\bin', 'C:\\Users\\rico\\Documents\\rti_code\\python\\PredictR', 'C:\\Users\\rico\\Documents\\rti_code\\python\\PredictR\PredictR_view' ,'C:\\Users\\rico\\Documents\\rti_code\\python\\PredictR\\rti_python'],
              binaries=[],
              datas=[('rti_python\\ADCP\\Predictor\\predictor.json', 'rti_python\\ADCP\\Predictor\\.'), ('rti.ico', '.'), ('rti_python\\ADCP\\AdcpCommands.json', 'rti_python\\ADCP\\.')],
              hiddenimports=['pkg_resources.py2_warn'],

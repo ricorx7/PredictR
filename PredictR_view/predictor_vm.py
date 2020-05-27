@@ -28,7 +28,7 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
         self.calc_data = 0.0
         self.calc_num_batt = 0.0
 
-        self.revLabel.setText("© RoweTech Inc. Rev 1.12")
+        self.revLabel.setText("© RoweTech Inc. Rev 1.13")
 
         # Command file
         self.cepo_list = []
@@ -299,6 +299,9 @@ class PredictorVM(predictor_view.Ui_RoweTechPredictor):
         # Calculate the data usage for progressbar
         # Convert GB to bytes
         sd_card_mb = self.storageSizeSpinBox.value() * 1024.0
+        if sd_card_mb == 0:
+            sd_card_mb = 32 * 1024.0
+            self.storageSizeSpinBox.setValue(32)
         data_usage_to_mb = self.calc_data / 1048576.0
         data_usage_percentage = (data_usage_to_mb / sd_card_mb) * 100.0
 

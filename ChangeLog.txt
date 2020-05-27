@@ -1,5 +1,9 @@
 ChangeLog PredictR
 
+PredictR-1.13
+ - Added Pulse-Coherent as option for pulse type
+ - Fix divide by zero or SD card size in predictor_vm
+
 PredictR-1.12
  - Add the option for dark mode
  - Fixed the layout
