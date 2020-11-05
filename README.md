@@ -1,5 +1,7 @@
 # RTI Prediction Model in Python
-Rowe Technologies Inc. Python library
+Rowe Technologies Inc. Prediction Model for ADCP1 Hardware.  Software used to plan a deployement for a Rowe Technologies Inc. ADCP.  Battery usage, standard deviation (accuarcy), memory usage, maximum range and maximum velocity are estimated based on the configuration.  Multiple configurations can be created for a single deployment.  As values are changed, the predictions will give a live update.
+
+![PredictR](http://rowetechinc.com/img/swfw/predictr.png)
 
 # Installation of Source Code
 The software is assumed to be in the path Documents\rti\python.  You will need to modify the .spec files with the correct paths to create an installer.
