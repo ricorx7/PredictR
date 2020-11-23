@@ -3,10 +3,10 @@
 block_cipher = None
 
 
-a = Analysis(['Frontend/qt/Predictor/mainwindow.py'],
-             pathex=['/Users/rico/python/rti_python'],
+a = Analysis(['mainwindow.py'],
+             pathex=['/Users/rico/Documents/rti/python/PredictR/rti_python', '/Users/rico/Documents/rti/python/PredictR/venv/lib/python3.7/site-packages/PyQt5/Qt/bin', '/Users/rico/Documents/rti/python/PredictR', '/Users/rico/Documents/rti/python/PredictR/PredictR_view'],
              binaries=[],
-             datas=[('ADCP/Predictor/predictor.json', 'ADCP/Predictor/.'), ('Updater/rti.ico', 'Updater/.'), ('ADCP/AdcpCommands.json', 'ADCP/.')],
+             datas=[('rti_python/ADCP/Predictor/predictor.json', 'rti_python/ADCP/Predictor/.'), ('rti.ico', '.'), ('rti_python/ADCP/AdcpCommands.json', 'rti_python/ADCP/.')],
              hiddenimports=[],
              hookspath=[],
              runtime_hooks=[],
@@ -22,11 +22,11 @@ exe = EXE(pyz,
           a.zipfiles,
           a.datas,
           name='mainwindow',
-          debug=False,
+          debug=True,
           strip=False,
           upx=True,
-          console=False )
+          console=True )
 app = BUNDLE(exe,
              name='PredictR.app',
-             icon='Updater/rti.ico',
+             icon='rti.ico',
              bundle_identifier=None)

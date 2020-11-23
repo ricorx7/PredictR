@@ -403,6 +403,7 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         self.beamDiaComboBox.addItem("2 inch", 2)
         self.beamDiaComboBox.addItem("1.35 inch", 1.35)
         self.beamDiaComboBox.addItem("1.25 inch", 1.25)
+        self.beamDiaComboBox.addItem("5.25 inch", 5.25)
 
         self.cwprtRangeFractionSpinBox.setEnabled(0)
         self.cwprtMinBinSpinBox.setEnabled(0)
@@ -607,6 +608,8 @@ class SubsystemVM(subsystem_view.Ui_Subsystem, QWidget):
         beamDia = 0.075                                 # 3 Inch
         if self.beamDiaComboBox.currentIndex() == 1:
             beamDia = 0.05                              # 2 Inch
+        elif self.beamDiaComboBox.currentIndex() == 4:
+            beamDia = 0.133                             # 5.25 Inch
 
         # Calculate
         self.calc_power = Power.calculate_power(DeploymentDuration=deployment,
